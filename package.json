@@ -1,0 +1,19 @@
+{
+  "name": "luxepil-site",
+  "version": "2.0.0",
+  "description": "Сайт салона Luxepil с записью в Telegram",
+  "main": "server.js",
+  "engines": {
+    "node": ">=18.0.0"
+  },
+  "scripts": {
+    "start": "node server.js"
+  },
+  "dependencies": {
+    "express": "^4.18.2",
+    "cors": "^2.8.5",
+    "dotenv": "^16.0.3",
+    "express-rate-limit": "^6.10.0",
+    "helmet": "^7.1.0"
+  }
+}
