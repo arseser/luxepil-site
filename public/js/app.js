@@ -91,7 +91,7 @@ document.addEventListener('DOMContentLoaded', function () {
     });
   }
 
-  // ---- МАСТЕРА ----
+  // ---- МАСТЕРА (с фото) ----
   async function loadMasters() {
     try {
       const res = await fetch('/api/masters');
@@ -126,15 +126,28 @@ document.addEventListener('DOMContentLoaded', function () {
     initCustomSelect('#masterSelect .custom-select__trigger', masterOptions, bookingMasterHidden);
   }
 
+  // Функция для рендера мастеров с фото (если есть) или инициалами
   function renderMastersGrid(masters) {
     const grid = document.getElementById('mastersGrid');
     grid.innerHTML = '';
     masters.forEach(master => {
       const card = document.createElement('div');
       card.className = 'master-card';
-      const initial = master.name.charAt(0);
+      
+      // Формируем имя файла: все буквы строчные, пробелы на _
+      const photoName = master.name.toLowerCase().replace(/\s/g, '_') + '.jpg';
+      const photoPath = `/images/masters/${photoName}`;
+      
+      // Если фото не загрузится — покажем инициал
+      const photoHtml = `
+        <div class="master-card__photo">
+          <img src="${photoPath}" alt="${master.name}" 
+               onerror="this.style.display='none'; this.parentElement.textContent='${master.name.charAt(0)}'">
+        </div>
+      `;
+      
       card.innerHTML = `
-        <div class="master-card__photo">${initial}</div>
+        ${photoHtml}
         <h3>${master.name}</h3>
         <div class="master-rating">★ ${master.rating} (${master.reviews} оценок)</div>
         <p>${master.specialization}</p>
