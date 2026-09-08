@@ -91,6 +91,18 @@ app.get('/api/reviews', (req, res) => {
   res.json(reviewsData);
 });
 
+// ----- API: мастера (НОВЫЙ ЭНДПОИНТ) -----
+app.get('/api/masters', (req, res) => {
+  try {
+    const masters = JSON.parse(
+      fs.readFileSync(path.join(__dirname, 'data', 'masters.json'), 'utf8')
+    );
+    res.json(masters);
+  } catch (e) {
+    res.json([]);
+  }
+});
+
 // ----- API: запись -----
 app.post('/api/booking', async (req, res) => {
   const { name, phone, service, master, date, time, comment } = req.body;
@@ -114,8 +126,8 @@ app.post('/api/booking', async (req, res) => {
 
   // ---- Проверка времени (без лишнего смещения) ----
   if (!errors.length) {
-    const nowMs = Date.now(); // абсолютное время в UTC
-    const selectedMs = new Date(date + 'T' + time + '+03:00').getTime(); // Казань UTC+3
+    const nowMs = Date.now();
+    const selectedMs = new Date(date + 'T' + time + '+03:00').getTime();
     if (selectedMs < nowMs) {
       errors.push('Выбранное время уже прошло');
     }
