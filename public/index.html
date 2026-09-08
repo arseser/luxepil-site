@@ -88,25 +88,10 @@
     <section id="masters" class="masters">
       <div class="container">
         <h2 class="section-title">Наши специалисты</h2>
-        <div class="masters__grid">
-          <!-- Заглушки, замени на реальных мастеров -->
-          <div class="master-card">
-            <div class="master-card__photo">А</div>
-            <h3>Анна</h3>
-            <p>Мастер ногтевого сервиса</p>
-          </div>
-          <div class="master-card">
-            <div class="master-card__photo">Е</div>
-            <h3>Екатерина</h3>
-            <p>Лазерная эпиляция</p>
-          </div>
-          <div class="master-card">
-            <div class="master-card__photo">О</div>
-            <h3>Ольга</h3>
-            <p>Депиляция, массаж</p>
-          </div>
+        <div class="masters__grid" id="mastersGrid">
+          <!-- Заполняется из API /masters -->
         </div>
-        <p class="masters__hint">⚠️ Имена и фото временно заменены заглушками. Замените на реальных сотрудников.</p>
+        <p class="masters__hint">⚠️ Фото временно заменены инициалами. Замените на реальные фото.</p>
       </div>
     </section>
 
@@ -141,7 +126,7 @@
       </div>
     </section>
 
-    <!-- ===== ФОРМА ЗАПИСИ ===== -->
+    <!-- ===== ФОРМА ЗАПИСИ (с кастомными селекторами) ===== -->
     <section id="booking" class="booking">
       <div class="container">
         <div class="booking__card">
@@ -155,18 +140,33 @@
               <label for="bookingPhone">Телефон *</label>
               <input type="tel" id="bookingPhone" required placeholder="+7 (900) 123-45-67">
             </div>
+
+            <!-- КАСТОМНЫЙ СЕЛЕКТОР: УСЛУГА -->
             <div class="form-group">
-              <label for="bookingService">Услуга *</label>
-              <select id="bookingService" required>
-                <option value="">Выберите услугу</option>
-              </select>
+              <label>Выберите услугу *</label>
+              <div class="custom-select" id="serviceSelect">
+                <div class="custom-select__trigger">
+                  <span class="custom-select__placeholder">Нажмите, чтобы выбрать услугу</span>
+                  <span class="custom-select__arrow">▼</span>
+                </div>
+                <div class="custom-select__options" id="serviceOptions"></div>
+              </div>
+              <input type="hidden" id="bookingService" value="">
             </div>
+
+            <!-- КАСТОМНЫЙ СЕЛЕКТОР: МАСТЕР -->
             <div class="form-group">
-              <label for="bookingMaster">Мастер</label>
-              <select id="bookingMaster">
-                <option value="">Любой мастер</option>
-              </select>
+              <label>Выберите мастера</label>
+              <div class="custom-select" id="masterSelect">
+                <div class="custom-select__trigger">
+                  <span class="custom-select__placeholder">Любой мастер</span>
+                  <span class="custom-select__arrow">▼</span>
+                </div>
+                <div class="custom-select__options" id="masterOptions"></div>
+              </div>
+              <input type="hidden" id="bookingMaster" value="">
             </div>
+
             <div class="form-group form-group--half">
               <label for="bookingDate">Дата *</label>
               <input type="date" id="bookingDate" required>
@@ -175,10 +175,12 @@
               <label for="bookingTime">Время *</label>
               <input type="time" id="bookingTime" required>
             </div>
+
             <div class="form-group">
               <label for="bookingComment">Комментарий (до 500 символов)</label>
               <textarea id="bookingComment" rows="3" maxlength="500" placeholder="Дополнительные пожелания"></textarea>
             </div>
+
             <button type="submit" class="btn btn--primary btn--large">Отправить заявку</button>
             <div id="bookingMessage" class="booking__message"></div>
           </form>
