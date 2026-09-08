@@ -9,7 +9,7 @@ const path = require('path');
 const app = express();
 const PORT = process.env.PORT || 3000;
 
-// ----- Безопасность (CSP с разрешением инлайн-стилей) -----
+// ----- CSP с разрешением инлайн-стилей -----
 app.use(helmet({
   contentSecurityPolicy: {
     directives: {
@@ -23,10 +23,8 @@ app.use(helmet({
   },
 }));
 
-// ----- Доверять прокси (для Render) -----
 app.set('trust proxy', 1);
 
-// ----- Настройка CORS (строго) -----
 const allowedOrigin = process.env.ALLOWED_ORIGIN || 'http://localhost:3000';
 app.use(cors({
   origin: allowedOrigin,
@@ -34,7 +32,6 @@ app.use(cors({
   credentials: true
 }));
 
-// ----- Rate Limiter (защита от спама) -----
 const limiter = rateLimit({
   windowMs: 15 * 60 * 1000,
   max: 5,
@@ -44,7 +41,6 @@ const limiter = rateLimit({
 });
 app.use('/api/booking', limiter);
 
-// ----- Middleware -----
 app.use(express.json({ limit: '1mb' }));
 app.use(express.static('public'));
 
@@ -82,17 +78,15 @@ function logBooking(data) {
   }
 }
 
-// ----- API: список услуг -----
+// ----- API -----
 app.get('/api/services', (req, res) => {
   res.json(pricesData);
 });
 
-// ----- API: отзывы -----
 app.get('/api/reviews', (req, res) => {
   res.json(reviewsData);
 });
 
-// ----- API: мастера (добавлен) -----
 app.get('/api/masters', (req, res) => {
   try {
     const masters = JSON.parse(
@@ -104,11 +98,9 @@ app.get('/api/masters', (req, res) => {
   }
 });
 
-// ----- API: запись -----
 app.post('/api/booking', async (req, res) => {
   const { name, phone, service, master, date, time, comment } = req.body;
 
-  // ---- Серверная валидация ----
   const errors = [];
   if (!name || name.trim().length < 2) errors.push('Имя (минимум 2 символа)');
   if (!phone || !/^[\+\d\s\-\(\)]{10,20}$/.test(phone)) errors.push('Некорректный телефон');
@@ -117,7 +109,6 @@ app.post('/api/booking', async (req, res) => {
   if (!time || !/^\d{2}:\d{2}$/.test(time)) errors.push('Некорректное время');
   if (comment && comment.length > 500) errors.push('Комментарий не должен превышать 500 символов');
 
-  // Проверка существования даты
   if (!errors.length) {
     const parsedDate = new Date(date);
     if (parsedDate.toISOString().slice(0,10) !== date) {
@@ -125,7 +116,6 @@ app.post('/api/booking', async (req, res) => {
     }
   }
 
-  // ---- Проверка времени (без лишнего смещения) ----
   if (!errors.length) {
     const nowMs = Date.now();
     const selectedMs = new Date(date + 'T' + time + '+03:00').getTime();
@@ -138,7 +128,6 @@ app.post('/api/booking', async (req, res) => {
     return res.status(400).json({ success: false, error: errors.join('; ') });
   }
 
-  // ---- Отправка в Telegram ----
   const botToken = process.env.TELEGRAM_BOT_TOKEN;
   const chatId = process.env.TELEGRAM_CHAT_ID;
 
@@ -164,10 +153,7 @@ app.post('/api/booking', async (req, res) => {
     const response = await fetch(url, {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({
-        chat_id: chatId,
-        text: message,
-      })
+      body: JSON.stringify({ chat_id: chatId, text: message })
     });
 
     if (!response.ok) {
@@ -184,7 +170,6 @@ app.post('/api/booking', async (req, res) => {
   }
 });
 
-// ----- Запуск -----
 app.listen(PORT, () => {
   console.log(`🚀 Сервер Luxepil запущен на порту ${PORT}`);
   console.log(`🔒 CORS разрешён только для: ${allowedOrigin}`);
