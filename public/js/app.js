@@ -38,6 +38,7 @@ document.addEventListener('DOMContentLoaded', function () {
       const data = await res.json();
       renderServiceOptions(data.categories);
       renderTabs(data.categories);
+      // По умолчанию показываем первую категорию
       renderServices(data.categories[0]);
     } catch (err) {
       console.error('Ошибка загрузки услуг:', err);
@@ -77,11 +78,28 @@ document.addEventListener('DOMContentLoaded', function () {
     });
   }
 
+  // ---- Рендер услуг с кнопкой "Показать все" ----
   function renderServices(category) {
+    // Очищаем список
     serviceList.innerHTML = '';
-    category.services.forEach(item => {
+
+    // Если нет услуг — выходим
+    if (!category || !category.services || category.services.length === 0) {
+      return;
+    }
+
+    const services = category.services;
+    const total = services.length;
+    const initialShow = 3; // показываем первые 3
+
+    // Рендерим все карточки, но скрываем те, что после initialShow
+    services.forEach((item, index) => {
       const card = document.createElement('div');
       card.className = 'service-card';
+      // Добавляем класс hidden, если индекс >= initialShow
+      if (index >= initialShow) {
+        card.classList.add('service-card--hidden');
+      }
       card.innerHTML = `
         <h3>${item.name}</h3>
         <div class="price">${item.price} ₽</div>
@@ -89,6 +107,25 @@ document.addEventListener('DOMContentLoaded', function () {
       `;
       serviceList.appendChild(card);
     });
+
+    // Удаляем старую кнопку, если есть
+    const oldBtn = serviceList.querySelector('.services__show-all-btn');
+    if (oldBtn) oldBtn.remove();
+
+    // Если услуг больше initialShow, добавляем кнопку
+    if (total > initialShow) {
+      const btn = document.createElement('button');
+      btn.className = 'services__show-all-btn';
+      btn.textContent = `Показать все (${total - initialShow})`;
+      btn.addEventListener('click', function() {
+        // Показываем все скрытые карточки
+        const hiddenCards = serviceList.querySelectorAll('.service-card--hidden');
+        hiddenCards.forEach(card => card.classList.remove('service-card--hidden'));
+        // Скрываем кнопку
+        this.style.display = 'none';
+      });
+      serviceList.appendChild(btn);
+    }
   }
 
   // ---- МАСТЕРА (с фото) ----
@@ -134,17 +171,12 @@ document.addEventListener('DOMContentLoaded', function () {
       const card = document.createElement('div');
       card.className = 'master-card';
 
-      // Создаём контейнер для фото
       const photoContainer = document.createElement('div');
       photoContainer.className = 'master-card__photo';
 
-      // Формируем имя файла: все буквы строчные, пробелы и спецсимволы заменяем на _
       const fileName = master.name.toLowerCase().replace(/[^a-zа-яё0-9]/g, '_') + '.jpg';
       const photoPath = `/images/masters/${fileName}`;
 
-      console.log(`Загружаем фото для ${master.name}: ${photoPath}`);
-
-      // Создаём img
       const img = document.createElement('img');
       img.src = photoPath;
       img.alt = master.name;
@@ -153,9 +185,7 @@ document.addEventListener('DOMContentLoaded', function () {
       img.style.borderRadius = '50%';
       img.style.objectFit = 'cover';
 
-      // Если фото не загрузилось — показываем инициал
       img.onerror = function() {
-        console.log(`❌ Фото не загрузилось: ${photoPath}`);
         this.style.display = 'none';
         const fallback = document.createElement('span');
         fallback.className = 'master-card__photo-fallback';
@@ -170,13 +200,12 @@ document.addEventListener('DOMContentLoaded', function () {
       };
 
       img.onload = function() {
-        console.log(`✅ Фото загружено: ${photoPath}`);
+        // фото загружено
       };
 
       photoContainer.appendChild(img);
       card.appendChild(photoContainer);
 
-      // Остальная информация
       const nameEl = document.createElement('h3');
       nameEl.textContent = master.name;
       card.appendChild(nameEl);
