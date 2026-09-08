@@ -126,7 +126,6 @@ document.addEventListener('DOMContentLoaded', function () {
     initCustomSelect('#masterSelect .custom-select__trigger', masterOptions, bookingMasterHidden);
   }
 
-  // Функция для рендера мастеров с фото (если есть) или инициалами
   function renderMastersGrid(masters) {
     const grid = document.getElementById('mastersGrid');
     grid.innerHTML = '';
@@ -134,24 +133,46 @@ document.addEventListener('DOMContentLoaded', function () {
       const card = document.createElement('div');
       card.className = 'master-card';
       
-      // Формируем имя файла: все буквы строчные, пробелы на _
-      const photoName = master.name.toLowerCase().replace(/\s/g, '_') + '.jpg';
-      const photoPath = `/images/masters/${photoName}`;
+      // Формируем имя файла: все буквы строчные, пробелы и спецсимволы заменяем на _
+      const fileName = master.name.toLowerCase().replace(/[^a-zа-яё0-9]/g, '_') + '.jpg';
+      const photoPath = `/images/masters/${fileName}`;
+
+      // Создаём элемент img с обработчиком ошибки
+      const img = document.createElement('img');
+      img.src = photoPath;
+      img.alt = master.name;
+      img.style.width = '100px';
+      img.style.height = '100px';
+      img.style.borderRadius = '50%';
+      img.style.objectFit = 'cover';
+      img.onerror = function() {
+        // Если фото не загрузилось, показываем инициал
+        this.style.display = 'none';
+        const fallback = document.createElement('span');
+        fallback.className = 'master-card__photo-fallback';
+        fallback.textContent = master.name.charAt(0);
+        this.parentElement.appendChild(fallback);
+      };
+
+      const photoContainer = document.createElement('div');
+      photoContainer.className = 'master-card__photo';
+      photoContainer.appendChild(img);
+
+      card.appendChild(photoContainer);
       
-      // Если фото не загрузится — покажем инициал
-      const photoHtml = `
-        <div class="master-card__photo">
-          <img src="${photoPath}" alt="${master.name}" 
-               onerror="this.style.display='none'; this.parentElement.textContent='${master.name.charAt(0)}'">
-        </div>
-      `;
+      const nameEl = document.createElement('h3');
+      nameEl.textContent = master.name;
+      card.appendChild(nameEl);
       
-      card.innerHTML = `
-        ${photoHtml}
-        <h3>${master.name}</h3>
-        <div class="master-rating">★ ${master.rating} (${master.reviews} оценок)</div>
-        <p>${master.specialization}</p>
-      `;
+      const ratingEl = document.createElement('div');
+      ratingEl.className = 'master-rating';
+      ratingEl.textContent = `★ ${master.rating} (${master.reviews} оценок)`;
+      card.appendChild(ratingEl);
+      
+      const specEl = document.createElement('p');
+      specEl.textContent = master.specialization;
+      card.appendChild(specEl);
+      
       grid.appendChild(card);
     });
   }
