@@ -9,15 +9,16 @@ const path = require('path');
 const app = express();
 const PORT = process.env.PORT || 3000;
 
-// ----- Безопасность (CSP с поддержкой внешних ресурсов) -----
+// ----- Безопасность (CSP с разрешением инлайн-стилей) -----
 app.use(helmet({
   contentSecurityPolicy: {
     directives: {
       ...helmet.contentSecurityPolicy.getDefaultDirectives(),
-      "img-src": ["'self'", "data:", "https://placehold.co"],
+      "img-src": ["'self'", "data:", "https://placehold.co", "https://api-maps.yandex.ru"],
       "frame-src": ["'self'", "https://yandex.ru"],
       "font-src": ["'self'", "https://fonts.gstatic.com"],
-      "style-src": ["'self'", "https://fonts.googleapis.com"],
+      "style-src": ["'self'", "https://fonts.googleapis.com", "'unsafe-inline'"],
+      "script-src": ["'self'", "'unsafe-inline'"],
     },
   },
 }));
@@ -91,7 +92,7 @@ app.get('/api/reviews', (req, res) => {
   res.json(reviewsData);
 });
 
-// ----- API: мастера (НОВЫЙ ЭНДПОИНТ) -----
+// ----- API: мастера (добавлен) -----
 app.get('/api/masters', (req, res) => {
   try {
     const masters = JSON.parse(
