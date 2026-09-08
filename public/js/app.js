@@ -6,6 +6,7 @@ document.addEventListener('DOMContentLoaded', function () {
   const bookingServiceHidden = document.getElementById('bookingService');
   const bookingMasterHidden = document.getElementById('bookingMaster');
 
+  // ---- Кастомный селектор ----
   function initCustomSelect(triggerSelector, optionsContainer, hiddenInput, onSelect) {
     const trigger = document.querySelector(triggerSelector);
     const container = trigger.parentElement;
@@ -126,53 +127,92 @@ document.addEventListener('DOMContentLoaded', function () {
     initCustomSelect('#masterSelect .custom-select__trigger', masterOptions, bookingMasterHidden);
   }
 
+  // Основная функция рендера мастеров с фото
   function renderMastersGrid(masters) {
     const grid = document.getElementById('mastersGrid');
     grid.innerHTML = '';
+
     masters.forEach(master => {
+      // Создаём карточку
       const card = document.createElement('div');
       card.className = 'master-card';
-      
-      // Формируем имя файла: все буквы строчные, пробелы и спецсимволы заменяем на _
-      const fileName = master.name.toLowerCase().replace(/[^a-zа-яё0-9]/g, '_') + '.jpg';
-      const photoPath = `/images/masters/${fileName}`;
 
-      // Создаём элемент img с обработчиком ошибки
+      // Формируем имя файла: все буквы строчные, заменяем пробелы и спецсимволы на _
+      const baseName = master.name.toLowerCase().replace(/[^a-zа-яё0-9]/g, '_');
+      // Пробуем расширения .jpg и .png
+      const extensions = ['jpg', 'png'];
+
+      // Создаём контейнер для фото
+      const photoContainer = document.createElement('div');
+      photoContainer.className = 'master-card__photo';
+
+      // Создаём элемент img
       const img = document.createElement('img');
-      img.src = photoPath;
       img.alt = master.name;
       img.style.width = '100px';
       img.style.height = '100px';
       img.style.borderRadius = '50%';
       img.style.objectFit = 'cover';
+
+      // Переменная для отслеживания попыток
+      let attemptIndex = 0;
+
+      // Функция попытки загрузки
+      function tryLoad() {
+        if (attemptIndex < extensions.length) {
+          const ext = extensions[attemptIndex];
+          const path = `/images/masters/${baseName}.${ext}`;
+          img.src = path;
+          console.log(`Пробуем загрузить фото: ${path}`);
+          attemptIndex++;
+        } else {
+          // Все попытки не удались — показываем инициал
+          img.style.display = 'none';
+          const fallback = document.createElement('span');
+          fallback.className = 'master-card__photo-fallback';
+          fallback.textContent = master.name.charAt(0);
+          fallback.style.cssText = `
+            width: 100px; height: 100px; border-radius: 50%;
+            background: #F0EAE5; display: flex; align-items: center;
+            justify-content: center; font-size: 36px; font-weight: 600;
+            color: #A67C6B; font-family: 'Playfair Display', serif;
+          `;
+          photoContainer.appendChild(fallback);
+          console.log(`Фото не найдено для ${master.name}, показываем инициал`);
+        }
+      }
+
+      // Обработчик ошибки загрузки
       img.onerror = function() {
-        // Если фото не загрузилось, показываем инициал
-        this.style.display = 'none';
-        const fallback = document.createElement('span');
-        fallback.className = 'master-card__photo-fallback';
-        fallback.textContent = master.name.charAt(0);
-        this.parentElement.appendChild(fallback);
+        tryLoad(); // пробуем следующее расширение
       };
 
-      const photoContainer = document.createElement('div');
-      photoContainer.className = 'master-card__photo';
-      photoContainer.appendChild(img);
+      // Обработчик успешной загрузки
+      img.onload = function() {
+        console.log(`✅ Фото загружено: ${img.src}`);
+      };
 
+      // Начинаем первую попытку
+      tryLoad();
+
+      // Добавляем img в контейнер
+      photoContainer.appendChild(img);
       card.appendChild(photoContainer);
-      
+
+      // Остальная информация
       const nameEl = document.createElement('h3');
       nameEl.textContent = master.name;
       card.appendChild(nameEl);
-      
+
       const ratingEl = document.createElement('div');
       ratingEl.className = 'master-rating';
       ratingEl.textContent = `★ ${master.rating} (${master.reviews} оценок)`;
       card.appendChild(ratingEl);
-      
+
       const specEl = document.createElement('p');
       specEl.textContent = master.specialization;
       card.appendChild(specEl);
-      
+
       grid.appendChild(card);
     });
   }
