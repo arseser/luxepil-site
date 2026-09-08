@@ -1,0 +1,180 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Luxepil — Салон красоты в Казани | Лазерная эпиляция, маникюр, педикюр</title>
+  <meta name="description" content="Салон красоты Luxepil в Казани: лазерная эпиляция, маникюр, педикюр, депиляция. Рейтинг 5.0 на Яндекс.Картах. Запись онлайн.">
+  <meta name="keywords" content="Luxepil, салон красоты Казань, лазерная эпиляция, маникюр, педикюр, депиляция">
+  
+  <!-- Open Graph – замени URL на свой после деплоя -->
+  <meta property="og:title" content="Luxepil — Салон красоты в Казани">
+  <meta property="og:description" content="Лазерная эпиляция, маникюр, педикюр, депиляция. Рейтинг 5.0. Запись онлайн.">
+  <meta property="og:image" content="https://ваш-домен/images/salon.jpg">
+  <meta property="og:url" content="https://ваш-домен">
+  <meta name="twitter:card" content="summary_large_image">
+
+  <link rel="icon" type="image/svg+xml" href="/favicon.svg">
+  <link rel="stylesheet" href="css/style.css">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,400;14..32,500;14..32,600;14..32,700&display=swap" rel="stylesheet">
+</head>
+<body>
+  <header class="header">
+    <div class="container header__inner">
+      <div class="header__logo">
+        <img src="/images/logo.png" alt="Luxepil" style="height: 40px; width: auto;">
+      </div>
+      <nav class="header__nav">
+        <a href="#services">Услуги</a>
+        <a href="#masters">Мастера</a>
+        <a href="#reviews">Отзывы</a>
+        <a href="#contacts">Контакты</a>
+        <a href="#booking" class="btn btn--primary">Записаться</a>
+      </nav>
+      <button class="header__burger" aria-label="Меню">☰</button>
+    </div>
+  </header>
+
+  <main>
+    <!-- Герой -->
+    <section class="hero">
+      <div class="container hero__inner">
+        <div class="hero__content">
+          <h1 class="hero__title">Luxepil — твой идеальный салон красоты</h1>
+          <p class="hero__subtitle">Лазерная эпиляция, маникюр, педикюр и депиляция в Казани. <strong>Рейтинг 5.0</strong> на Яндекс.Картах.</p>
+          <a href="#booking" class="btn btn--large btn--primary">Записаться сейчас</a>
+        </div>
+        <div class="hero__image">
+          <img src="/images/salon.jpg" alt="Интерьер салона Luxepil">
+        </div>
+      </div>
+    </section>
+
+    <!-- Услуги -->
+    <section id="services" class="services">
+      <div class="container">
+        <h2 class="section-title">Наши услуги и цены</h2>
+        <div class="services__tabs" id="serviceTabs"></div>
+        <div class="services__list" id="serviceList"></div>
+      </div>
+    </section>
+
+    <!-- Мастера (заглушки, с предупреждением) -->
+    <section id="masters" class="masters">
+      <div class="container">
+        <h2 class="section-title">Наши специалисты</h2>
+        <div class="masters__grid">
+          <div class="master-card">
+            <img src="https://placehold.co/200x200/EEE/999?text=Мастер+1" alt="Мастер">
+            <h3>Имя мастера</h3>
+            <p>Специализация</p>
+          </div>
+          <div class="master-card">
+            <img src="https://placehold.co/200x200/EEE/999?text=Мастер+2" alt="Мастер">
+            <h3>Имя мастера</h3>
+            <p>Специализация</p>
+          </div>
+          <div class="master-card">
+            <img src="https://placehold.co/200x200/EEE/999?text=Мастер+3" alt="Мастер">
+            <h3>Имя мастера</h3>
+            <p>Специализация</p>
+          </div>
+        </div>
+        <p style="text-align:center; margin-top:20px; color:#c0392b; font-size:14px; background:#fff0f0; padding:10px; border-radius:8px;">
+          ⚠️ Фото и имена мастеров временно заменены заглушками. 
+          <strong>Замените на реальных сотрудников салона перед публикацией.</strong>
+        </p>
+      </div>
+    </section>
+
+    <!-- Отзывы (реальные, подгружаются из API) -->
+    <section id="reviews" class="reviews">
+      <div class="container">
+        <h2 class="section-title">Отзывы клиентов</h2>
+        <div class="reviews__grid" id="reviewsGrid"></div>
+      </div>
+    </section>
+
+    <!-- Контакты и карта -->
+    <section id="contacts" class="contacts">
+      <div class="container">
+        <h2 class="section-title">Как нас найти</h2>
+        <div class="contacts__inner">
+          <div class="contacts__info">
+            <p><strong>Адрес:</strong> Казань, ул. Отрадная, 15</p>
+            <p><strong>Телефон:</strong> <a href="tel:+79047121315">+7 (904) 712-13-15</a></p>
+            <p><strong>Режим работы:</strong> Ежедневно, 9:00 – 21:00</p>
+            <p><strong>WhatsApp:</strong> <a href="https://wa.me/79047121315" target="_blank">Написать в WhatsApp</a></p>
+            <p><strong>Telegram:</strong> <a href="https://t.me/Luxepilgorki" target="_blank">@Luxepilgorki</a></p>
+            <p><strong>VK:</strong> <a href="https://vk.ru/luxepil" target="_blank">vk.ru/luxepil</a></p>
+          </div>
+          <div class="contacts__map">
+            <iframe 
+              src="https://yandex.ru/maps/org/luxepil/86512125411/?ll=49.174030%2C55.765919&z=16&l=map&pt=49.174030%2C55.765919"
+              width="100%" 
+              height="300" 
+              frameborder="0"
+              allowfullscreen>
+            </iframe>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Форма записи -->
+    <section id="booking" class="booking">
+      <div class="container">
+        <h2 class="section-title">Записаться онлайн</h2>
+        <form id="bookingForm" class="booking__form">
+          <div class="form-group">
+            <label for="bookingName">Ваше имя *</label>
+            <input type="text" id="bookingName" required placeholder="Например, Анна">
+          </div>
+          <div class="form-group">
+            <label for="bookingPhone">Телефон *</label>
+            <input type="tel" id="bookingPhone" required placeholder="+7 (900) 123-45-67">
+          </div>
+          <div class="form-group">
+            <label for="bookingService">Услуга *</label>
+            <select id="bookingService" required>
+              <option value="">Выберите услугу</option>
+            </select>
+          </div>
+          <div class="form-group">
+            <label for="bookingMaster">Мастер</label>
+            <select id="bookingMaster">
+              <option value="">Любой мастер</option>
+              <!-- Реальные имена будут добавлены позже -->
+            </select>
+          </div>
+          <div class="form-group">
+            <label for="bookingDate">Дата *</label>
+            <input type="date" id="bookingDate" required>
+          </div>
+          <div class="form-group">
+            <label for="bookingTime">Время *</label>
+            <input type="time" id="bookingTime" required>
+          </div>
+          <div class="form-group">
+            <label for="bookingComment">Комментарий (до 500 символов)</label>
+            <textarea id="bookingComment" rows="3" maxlength="500" placeholder="Дополнительные пожелания"></textarea>
+          </div>
+          <button type="submit" class="btn btn--primary btn--large">Отправить заявку</button>
+          <div id="bookingMessage" class="booking__message"></div>
+        </form>
+      </div>
+    </section>
+  </main>
+
+  <footer class="footer">
+    <div class="container footer__inner">
+      <p>© <span id="year"></span> Luxepil. Все права защищены.</p>
+      <p>Сайт сделан с ❤️ для вашего комфорта.</p>
+    </div>
+  </footer>
+
+  <script src="js/app.js"></script>
+</body>
+</html>
