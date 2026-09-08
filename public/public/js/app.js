@@ -1,24 +1,72 @@
 document.addEventListener('DOMContentLoaded', function () {
   document.getElementById('year').textContent = new Date().getFullYear();
 
-  // ---- Загрузка услуг ----
-  const serviceTabs = document.getElementById('serviceTabs');
-  const serviceList = document.getElementById('serviceList');
-  const bookingSelect = document.getElementById('bookingService');
-  let allServices = [];
+  // ---- ЗАГРУЗКА УСЛУГ ----
+  const serviceOptions = document.getElementById('serviceOptions');
+  const masterOptions = document.getElementById('masterOptions');
+  const bookingServiceHidden = document.getElementById('bookingService');
+  const bookingMasterHidden = document.getElementById('bookingMaster');
 
+  let allServices = [];
+  let allMasters = [];
+
+  // Функция для создания кастомного селекта
+  function initCustomSelect(triggerSelector, optionsContainer, hiddenInput, onSelect) {
+    const trigger = document.querySelector(triggerSelector);
+    const container = trigger.parentElement;
+
+    trigger.addEventListener('click', function(e) {
+      e.stopPropagation();
+      container.classList.toggle('open');
+    });
+
+    document.addEventListener('click', function() {
+      container.classList.remove('open');
+    });
+
+    optionsContainer.addEventListener('click', function(e) {
+      const option = e.target.closest('.custom-option');
+      if (!option) return;
+      const value = option.dataset.value;
+      const label = option.textContent.trim();
+      hiddenInput.value = value;
+      trigger.querySelector('.custom-select__placeholder').textContent = label;
+      container.classList.remove('open');
+      if (onSelect) onSelect(value);
+    });
+  }
+
+  // ---- ЗАГРУЗКА УСЛУГ ----
   async function loadServices() {
     try {
       const res = await fetch('/api/services');
       const data = await res.json();
       allServices = data.categories;
+      renderServiceOptions(allServices);
       renderTabs(allServices);
       renderServices(allServices[0]);
-      populateBookingSelect(allServices);
     } catch (err) {
       console.error('Ошибка загрузки услуг:', err);
     }
   }
+
+  function renderServiceOptions(categories) {
+    serviceOptions.innerHTML = '';
+    categories.forEach(cat => {
+      cat.services.forEach(service => {
+        const div = document.createElement('div');
+        div.className = 'custom-option';
+        div.dataset.value = `${cat.name}: ${service.name}`;
+        div.textContent = `${cat.name} — ${service.name} (${service.price} ₽)`;
+        serviceOptions.appendChild(div);
+      });
+    });
+    initCustomSelect('#serviceSelect .custom-select__trigger', serviceOptions, bookingServiceHidden);
+  }
+
+  // Табы услуг
+  const serviceTabs = document.getElementById('serviceTabs');
+  const serviceList = document.getElementById('serviceList');
 
   function renderTabs(categories) {
     serviceTabs.innerHTML = '';
@@ -50,21 +98,60 @@ document.addEventListener('DOMContentLoaded', function () {
     });
   }
 
-  function populateBookingSelect(categories) {
-    bookingSelect.innerHTML = '<option value="">Выберите услугу</option>';
-    categories.forEach(cat => {
-      cat.services.forEach(service => {
-        const opt = document.createElement('option');
-        opt.value = `${cat.name}: ${service.name}`;
-        opt.textContent = `${cat.name} — ${service.name} (${service.price} ₽)`;
-        bookingSelect.appendChild(opt);
-      });
+  // ---- ЗАГРУЗКА МАСТЕРОВ ----
+  async function loadMasters() {
+    try {
+      const res = await fetch('/api/masters');
+      const data = await res.json();
+      allMasters = data;
+      renderMasterOptions(allMasters);
+      renderMastersGrid(allMasters);
+    } catch (err) {
+      console.error('Ошибка загрузки мастеров:', err);
+    }
+  }
+
+  function renderMasterOptions(masters) {
+    masterOptions.innerHTML = '';
+    const anyOption = document.createElement('div');
+    anyOption.className = 'custom-option';
+    anyOption.dataset.value = '';
+    anyOption.textContent = 'Любой мастер';
+    masterOptions.appendChild(anyOption);
+
+    masters.forEach(master => {
+      const div = document.createElement('div');
+      div.className = 'custom-option';
+      div.dataset.value = master.name;
+      div.innerHTML = `
+        <span class="master-option-name">${master.name}</span>
+        <span class="master-option-rating">★ ${master.rating}</span>
+        <span class="master-option-special">${master.specialization}</span>
+      `;
+      masterOptions.appendChild(div);
+    });
+
+    initCustomSelect('#masterSelect .custom-select__trigger', masterOptions, bookingMasterHidden);
+  }
+
+  function renderMastersGrid(masters) {
+    const grid = document.getElementById('mastersGrid');
+    grid.innerHTML = '';
+    masters.forEach(master => {
+      const card = document.createElement('div');
+      card.className = 'master-card';
+      const initial = master.name.charAt(0);
+      card.innerHTML = `
+        <div class="master-card__photo">${initial}</div>
+        <h3>${master.name}</h3>
+        <div class="master-rating">★ ${master.rating} (${master.reviews} оценок)</div>
+        <p>${master.specialization}</p>
+      `;
+      grid.appendChild(card);
     });
   }
 
-  loadServices();
-
-  // ---- Загрузка отзывов ----
+  // ---- ЗАГРУЗКА ОТЗЫВОВ ----
   async function loadReviews() {
     try {
       const res = await fetch('/api/reviews');
@@ -81,9 +168,13 @@ document.addEventListener('DOMContentLoaded', function () {
       console.error('Ошибка загрузки отзывов:', err);
     }
   }
+
+  // ---- ИНИЦИАЛИЗАЦИЯ ----
+  loadServices();
+  loadMasters();
   loadReviews();
 
-  // ---- Отправка формы ----
+  // ---- ОТПРАВКА ФОРМЫ ----
   const form = document.getElementById('bookingForm');
   const messageEl = document.getElementById('bookingMessage');
 
@@ -92,13 +183,12 @@ document.addEventListener('DOMContentLoaded', function () {
 
     const name = document.getElementById('bookingName').value.trim();
     const phone = document.getElementById('bookingPhone').value.trim();
-    const service = document.getElementById('bookingService').value;
-    const master = document.getElementById('bookingMaster').value;
+    const service = bookingServiceHidden.value;
+    const master = bookingMasterHidden.value;
     const date = document.getElementById('bookingDate').value;
     const time = document.getElementById('bookingTime').value;
     const comment = document.getElementById('bookingComment').value.trim();
 
-    // ---- Валидация ----
     if (!name || name.length < 2) {
       showMessage('Имя должно содержать минимум 2 символа.', 'error');
       return;
@@ -120,14 +210,12 @@ document.addEventListener('DOMContentLoaded', function () {
       return;
     }
 
-    // Проверка существования даты
     const parsedDate = new Date(date);
     if (parsedDate.toISOString().slice(0,10) !== date) {
-      showMessage('Выбранная дата не существует (например, 30 февраля).', 'error');
+      showMessage('Выбранная дата не существует.', 'error');
       return;
     }
 
-    // ---- Проверка времени (без лишнего смещения) ----
     const nowMs = Date.now();
     const selectedMs = new Date(date + 'T' + time + '+03:00').getTime();
     if (selectedMs < nowMs) {
@@ -147,6 +235,10 @@ document.addEventListener('DOMContentLoaded', function () {
       if (result.success) {
         showMessage('✅ Заявка отправлена! Мы свяжемся с вами в ближайшее время.', 'success');
         form.reset();
+        document.querySelector('#serviceSelect .custom-select__placeholder').textContent = 'Нажмите, чтобы выбрать услугу';
+        document.querySelector('#masterSelect .custom-select__placeholder').textContent = 'Любой мастер';
+        bookingServiceHidden.value = '';
+        bookingMasterHidden.value = '';
       } else {
         showMessage('❌ Ошибка: ' + (result.error || 'попробуйте позже'), 'error');
       }
@@ -165,7 +257,7 @@ document.addEventListener('DOMContentLoaded', function () {
     }, 6000);
   }
 
-  // ---- Бургер-меню ----
+  // ---- БУРГЕР-МЕНЮ ----
   const burger = document.querySelector('.header__burger');
   const nav = document.querySelector('.header__nav');
   burger.addEventListener('click', () => {
@@ -175,9 +267,8 @@ document.addEventListener('DOMContentLoaded', function () {
     link.addEventListener('click', () => nav.classList.remove('open'));
   });
 
-  // ---- Минимальная дата (сегодня в Казани UTC+3) ----
+  // ---- МИНИМАЛЬНАЯ ДАТА (Казань UTC+3) ----
   const dateInput = document.getElementById('bookingDate');
-  // Просто добавляем 3 часа к текущему UTC-времени
   const kazanTime = new Date(Date.now() + 3 * 60 * 60 * 1000);
   const today = kazanTime.toISOString().split('T')[0];
   dateInput.setAttribute('min', today);
