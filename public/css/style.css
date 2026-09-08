@@ -827,3 +827,34 @@ body {
     font-size: 28px;
   }
 }
+/* ===== КНОПКА "ПОКАЗАТЬ ВСЕ" ДЛЯ УСЛУГ ===== */
+.services__show-all-btn {
+  grid-column: 1 / -1;
+  justify-self: center;
+  padding: 12px 36px;
+  background: transparent;
+  border: 2px solid #D4A373;
+  border-radius: 50px;
+  color: #D4A373;
+  font-size: 16px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.3s;
+  font-family: 'Inter', sans-serif;
+  margin-top: 10px;
+}
+
+.services__show-all-btn:hover {
+  background: #D4A373;
+  color: #fff;
+  box-shadow: 0 8px 20px rgba(212, 163, 115, 0.3);
+}
+
+/* Скрытые карточки услуг */
+.service-card--hidden {
+  display: none;
+}
+
+.service-card--hidden.show {
+  display: block;
+}
