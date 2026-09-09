@@ -2,7 +2,6 @@ document.addEventListener('DOMContentLoaded', function () {
   console.log('✅ app.js загружен');
   document.getElementById('year').textContent = new Date().getFullYear();
 
-  // ---- Транслитерация ----
   function transliterate(name) {
     const map = {
       'а':'a','б':'b','в':'v','г':'g','д':'d','е':'e','ё':'e','ж':'zh','з':'z','и':'i',
@@ -16,7 +15,6 @@ document.addEventListener('DOMContentLoaded', function () {
     return name.split('').map(ch => map[ch] || ch).join('').replace(/[^a-zA-Z0-9]/g, '').toLowerCase();
   }
 
-  // ===== ЗАГРУЗКА САЛОНОВ =====
   let currentSalonId = 1;
   let salonsData = [];
 
@@ -103,3 +101,105 @@ document.addEventListener('DOMContentLoaded', function () {
       const fullPath = `/images/masters/${folder}/${photoName}`;
 
       const img = document.createElement('img');
+      img.src = fullPath;
+      img.alt = master.name;
+      img.style.width = '100px';
+      img.style.height = '100px';
+      img.style.borderRadius = '50%';
+      img.style.objectFit = 'cover';
+      img.onerror = function() {
+        this.style.display = 'none';
+        const fallback = document.createElement('span');
+        fallback.className = 'master-card__photo-fallback';
+        fallback.textContent = master.name.charAt(0);
+        fallback.style.cssText = `
+          width: 100px; height: 100px; border-radius: 50%;
+          background: #F0EAE5; display: flex; align-items: center;
+          justify-content: center; font-size: 36px; font-weight: 600;
+          color: #A67C6B; font-family: 'Playfair Display', serif;
+        `;
+        this.parentElement.appendChild(fallback);
+      };
+
+      const photoContainer = document.createElement('div');
+      photoContainer.className = 'master-card__photo';
+      photoContainer.appendChild(img);
+      card.appendChild(photoContainer);
+
+      const nameEl = document.createElement('h3');
+      nameEl.textContent = master.name;
+      card.appendChild(nameEl);
+
+      if (master.reviews) {
+        const ratingEl = document.createElement('div');
+        ratingEl.className = 'master-rating';
+        ratingEl.textContent = `★ 5.0 (${master.reviews} оценок)`;
+        card.appendChild(ratingEl);
+      }
+
+      const specEl = document.createElement('p');
+      specEl.textContent = master.specialization;
+      card.appendChild(specEl);
+
+      mastersGrid.appendChild(card);
+    });
+  }
+
+  function renderReviews(reviews) {
+    reviewsGrid.innerHTML = '';
+    reviews.forEach(review => {
+      const card = document.createElement('div');
+      card.className = 'review-card';
+      card.innerHTML = `<p>“${review.text}”</p><span>— ${review.author}</span>`;
+      reviewsGrid.appendChild(card);
+    });
+  }
+
+  // ---- Загрузка услуг ----
+  const serviceTabs = document.getElementById('serviceTabs');
+  const serviceList = document.getElementById('serviceList');
+
+  async function loadServices() {
+    console.log('🔄 Загружаем услуги...');
+    try {
+      const res = await fetch('/api/services');
+      console.log('📡 Статус ответа /api/services:', res.status);
+      if (!res.ok) throw new Error('Ошибка загрузки услуг');
+      const data = await res.json();
+      console.log('📦 Получены услуги, категорий:', data.categories ? data.categories.length : 0);
+      if (!data.categories || data.categories.length === 0) {
+        serviceTabs.innerHTML = '<p style="text-align:center;color:#c0392b;padding:10px;">Нет категорий услуг</p>';
+        return;
+      }
+      renderTabsServices(data.categories);
+      renderServices(data.categories[0]);
+    } catch (err) {
+      console.error('❌ Ошибка:', err);
+      serviceTabs.innerHTML = '<p style="text-align:center;color:#c0392b;padding:10px;">Ошибка загрузки услуг</p>';
+    }
+  }
+
+  function renderTabsServices(categories) {
+    serviceTabs.innerHTML = '';
+    categories.forEach((cat, index) => {
+      const btn = document.createElement('button');
+      btn.textContent = cat.name;
+      btn.dataset.index = index;
+      if (index === 0) btn.classList.add('active');
+      btn.addEventListener('click', () => {
+        document.querySelectorAll('.services__tabs button').forEach(b => b.classList.remove('active'));
+        btn.classList.add('active');
+        renderServices(categories[index]);
+      });
+      serviceTabs.appendChild(btn);
+    });
+  }
+
+  function renderServices(category) {
+    serviceList.innerHTML = '';
+    const services = category.services;
+    const initialShow = 3;
+
+    services.forEach((item, index) => {
+      const card = document.createElement('div');
+      card.class
