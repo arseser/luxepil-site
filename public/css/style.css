@@ -858,3 +858,41 @@ body {
 .service-card--hidden.show {
   display: block;
 }
+/* ===== ПЕРЕКЛЮЧАТЕЛЬ САЛОНОВ ===== */
+.salons-switcher {
+  padding: 20px 0 10px;
+  background: #FDF5F0;
+  border-bottom: 1px solid #F0EAE5;
+}
+
+.salons-tabs {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  justify-content: center;
+}
+
+.salon-tab {
+  padding: 12px 28px;
+  background: transparent;
+  border: 2px solid #E8E0DA;
+  border-radius: 50px;
+  font-family: 'Inter', sans-serif;
+  font-weight: 500;
+  font-size: 16px;
+  color: #7A6F6B;
+  cursor: pointer;
+  transition: all 0.3s;
+}
+
+.salon-tab:hover {
+  border-color: #D4A373;
+  color: #D4A373;
+}
+
+.salon-tab.active {
+  background: #D4A373;
+  border-color: #D4A373;
+  color: #fff;
+  box-shadow: 0 4px 14px rgba(212, 163, 115, 0.25);
+}
