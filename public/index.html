@@ -5,21 +5,17 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Luxepil — сеть салонов красоты в Казани</title>
   <meta name="description" content="Лазерная эпиляция, маникюр, педикюр, депиляция. Рейтинг 5.0 на Яндекс.Картах. Запись онлайн.">
-  <meta property="og:title" content="Luxepil — сеть салонов красоты">
-  <meta property="og:description" content="Запись онлайн, 5.0 рейтинг, лучшие мастера.">
   <link rel="icon" type="image/svg+xml" href="/favicon.svg">
-  
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;0,700;1,400&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
-  
   <link rel="stylesheet" href="css/style.css">
 </head>
 <body>
   <header class="header">
     <div class="container header__inner">
       <a href="/" class="header__logo">
-        <img src="/images/logo.png" alt="Luxepil" style="height: 40px; width: auto;">
+        <img src="/images/logo.png" alt="Luxepil" style="height: 60px; width: auto; filter: brightness(0) saturate(100%) invert(70%) sepia(30%) saturate(500%) hue-rotate(5deg);">
       </a>
       <nav class="header__nav">
         <a href="#services">Услуги и цены</a>
@@ -28,56 +24,34 @@
         <a href="#contacts">Как нас найти</a>
         <a href="#booking" class="btn btn--primary btn--small">Записаться</a>
       </nav>
-      <button class="header__burger" aria-label="Меню">
-        <span></span><span></span><span></span>
-      </button>
+      <button class="header__burger" aria-label="Меню"><span></span><span></span><span></span></button>
     </div>
   </header>
 
   <main>
-    <!-- ===== ГЕРОЙ ===== -->
     <section class="hero">
       <div class="container hero__inner">
-        <div class="hero__content" style="flex: 1; text-align: center; max-width: 800px; margin: 0 auto;">
+        <div class="hero__content" style="flex:1;text-align:center;max-width:800px;margin:0 auto;">
           <span class="hero__tag">Сеть салонов красоты в Казани</span>
           <h1 class="hero__title">Luxepil</h1>
-          <p class="hero__subtitle">Лазерная эпиляция, маникюр, педикюр и депиляция. <br>Рейтинг <strong>5.0</strong> на Яндекс.Картах.</p>
+          <p class="hero__subtitle">Лазерная эпиляция, маникюр, педикюр и депиляция.<br>Рейтинг <strong>5.0</strong> на Яндекс.Картах.</p>
           <a href="#booking" class="btn btn--large btn--primary">Записаться онлайн</a>
         </div>
       </div>
     </section>
 
-    <!-- ===== ПЕРЕКЛЮЧАТЕЛЬ САЛОНОВ ===== -->
     <section class="salons-switcher">
-      <div class="container">
-        <div class="salons-tabs" id="salonsTabs">
-          <!-- Заполняется из JS -->
-        </div>
-      </div>
+      <div class="container"><div class="salons-tabs" id="salonsTabs"></div></div>
     </section>
 
-    <!-- ===== ПРЕИМУЩЕСТВА ===== -->
     <section class="advantages">
       <div class="container advantages__grid">
-        <div class="advantage">
-          <div class="advantage__icon">✦</div>
-          <h3>Мастера‑эксперты</h3>
-          <p>Опыт от 5 лет, регулярное повышение квалификации</p>
-        </div>
-        <div class="advantage">
-          <div class="advantage__icon">♡</div>
-          <h3>Премиальные материалы</h3>
-          <p>Используем только проверенные бренды для вашей безопасности</p>
-        </div>
-        <div class="advantage">
-          <div class="advantage__icon">◈</div>
-          <h3>Комфорт и уют</h3>
-          <p>Уютная атмосфера и индивидуальный подход к каждому гостю</p>
-        </div>
+        <div class="advantage"><span class="advantage__icon">✦</span><h3>Мастера‑эксперты</h3><p>Опыт от 5 лет, повышение квалификации</p></div>
+        <div class="advantage"><span class="advantage__icon">♡</span><h3>Премиальные материалы</h3><p>Проверенные бренды для вашей безопасности</p></div>
+        <div class="advantage"><span class="advantage__icon">◈</span><h3>Комфорт и уют</h3><p>Индивидуальный подход к каждому гостю</p></div>
       </div>
     </section>
 
-    <!-- ===== УСЛУГИ И ЦЕНЫ ===== -->
     <section id="services" class="services">
       <div class="container">
         <h2 class="section-title">Услуги и цены</h2>
@@ -86,7 +60,6 @@
       </div>
     </section>
 
-    <!-- ===== НАШИ СПЕЦИАЛИСТЫ ===== -->
     <section id="masters" class="masters">
       <div class="container">
         <h2 class="section-title">Наши специалисты</h2>
@@ -94,7 +67,6 @@
       </div>
     </section>
 
-    <!-- ===== ОТЗЫВЫ ===== -->
     <section id="reviews" class="reviews">
       <div class="container">
         <h2 class="section-title">Что говорят клиенты</h2>
@@ -102,14 +74,11 @@
       </div>
     </section>
 
-    <!-- ===== КОНТАКТЫ + КАРТА ===== -->
     <section id="contacts" class="contacts">
       <div class="container contacts__inner">
         <div class="contacts__info">
           <h2 class="section-title contacts__title">Как нас найти</h2>
-          <div id="contactsContent">
-            <!-- Заполняется из JS -->
-          </div>
+          <div id="contactsContent"></div>
           <div class="contacts__socials">
             <a href="#" id="whatsappLink" target="_blank">WhatsApp</a>
             <a href="#" id="telegramLink" target="_blank">Telegram</a>
@@ -119,7 +88,7 @@
         <div class="contacts__map">
           <a href="#" id="mapLink" target="_blank" class="map-link">
             <div class="map-placeholder">
-              <svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="#D4A373" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+              <svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="#C9A87C" stroke-width="1.5">
                 <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/>
                 <circle cx="12" cy="10" r="3"/>
               </svg>
@@ -131,20 +100,13 @@
       </div>
     </section>
 
-    <!-- ===== ФОРМА ЗАПИСИ ===== -->
     <section id="booking" class="booking">
       <div class="container">
-        <div class="booking__card" style="text-align: center; padding: 60px 40px;">
+        <div class="booking__card" style="text-align:center;padding:60px 40px;">
           <h2 class="section-title booking__title">Готовы записаться?</h2>
-          <p style="font-size: 18px; color: #7A6F6B; margin-bottom: 32px;">
-            Нажмите на кнопку ниже, чтобы перейти к форме записи
-          </p>
-          <a href="https://clck.ru/3B4viL" target="_blank" class="btn btn--large btn--primary" style="padding: 20px 60px; font-size: 22px;">
-            📅 Записаться онлайн
-          </a>
-          <p style="margin-top: 20px; font-size: 14px; color: #B8ADA7;">
-            Вы будете перенаправлены на форму записи
-          </p>
+          <p style="font-size:18px;color:#8A7A6F;margin-bottom:32px;">Нажмите на кнопку ниже, чтобы перейти к форме записи</p>
+          <a href="https://clck.ru/3B4viL" target="_blank" class="btn btn--large btn--primary" style="padding:20px 60px;font-size:22px;">📅 Записаться онлайн</a>
+          <p style="margin-top:20px;font-size:14px;color:#B8ADA7;">Вы будете перенаправлены на форму записи</p>
         </div>
       </div>
     </section>
