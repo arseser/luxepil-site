@@ -69,13 +69,9 @@ document.addEventListener('DOMContentLoaded', function () {
     const salon = salonsData.find(s => s.id === salonId);
     if (!salon) return;
 
-    // Мастера
-    renderMasters(salon.masters);
-
-    // Отзывы
+    renderMasters(salon.masters, salonId);
     renderReviews(salon.reviews);
 
-    // Контакты
     contactsContent.innerHTML = `
       <p><strong>Адрес:</strong> ${salon.address}</p>
       <p><strong>Телефон:</strong> <a href="tel:${salon.phone}">${salon.phone}</a></p>
@@ -85,7 +81,6 @@ document.addEventListener('DOMContentLoaded', function () {
     telegramLink.href = salon.telegram;
     vkLink.href = salon.vk;
 
-    // Карта
     const coords = salon.coordinates.split(',').map(s => s.trim());
     const lat = coords[0];
     const lng = coords[1];
@@ -95,23 +90,20 @@ document.addEventListener('DOMContentLoaded', function () {
     mapLink.href = `https://yandex.ru/maps/?pt=${lng},${lat}&z=16`;
   }
 
-  function renderMasters(masters) {
+  function renderMasters(masters, salonId) {
     mastersGrid.innerHTML = '';
+    const folderMap = {
+      1: 'popova_7',
+      2: 'kaybitskaya_2',
+      3: 'otdradnaya_15'
+    };
+    const folder = folderMap[salonId] || 'popova_7';
+
     masters.forEach(master => {
       const card = document.createElement('div');
       card.className = 'master-card';
 
-      // Фото – транслитерируем имя
       const photoName = transliterate(master.name) + '.jpg';
-      const photoPath = `/images/masters/popova_7/${photoName}`; // базовая папка, но мы будем подставлять папку филиала позже
-      // Для каждого филиала своя папка:
-      const salon = salonsData.find(s => s.id === currentSalonId);
-      let folder = '';
-      if (salon) {
-        if (salon.id === 1) folder = 'popova_7';
-        else if (salon.id === 2) folder = 'kaybitskaya_2';
-        else if (salon.id === 3) folder = 'otdradnaya_15';
-      }
       const fullPath = `/images/masters/${folder}/${photoName}`;
 
       const img = document.createElement('img');
@@ -169,7 +161,7 @@ document.addEventListener('DOMContentLoaded', function () {
     });
   }
 
-  // ---- Загрузка услуг ----
+  // ---- Загрузка услуг с кнопкой "Показать все" ----
   const serviceTabs = document.getElementById('serviceTabs');
   const serviceList = document.getElementById('serviceList');
 
@@ -202,9 +194,16 @@ document.addEventListener('DOMContentLoaded', function () {
 
   function renderServices(category) {
     serviceList.innerHTML = '';
-    category.services.forEach(item => {
+    const services = category.services;
+    const total = services.length;
+    const initialShow = 3;
+
+    services.forEach((item, index) => {
       const card = document.createElement('div');
       card.className = 'service-card';
+      if (index >= initialShow) {
+        card.classList.add('service-card--hidden');
+      }
       card.innerHTML = `
         <h3>${item.name}</h3>
         <div class="price">${item.price} ₽</div>
@@ -212,6 +211,21 @@ document.addEventListener('DOMContentLoaded', function () {
       `;
       serviceList.appendChild(card);
     });
+
+    const oldBtn = serviceList.querySelector('.services__show-all-btn');
+    if (oldBtn) oldBtn.remove();
+
+    if (total > initialShow) {
+      const btn = document.createElement('button');
+      btn.className = 'services__show-all-btn';
+      btn.textContent = `Показать все (${total - initialShow})`;
+      btn.addEventListener('click', function() {
+        const hiddenCards = serviceList.querySelectorAll('.service-card--hidden');
+        hiddenCards.forEach(card => card.classList.remove('service-card--hidden'));
+        this.style.display = 'none';
+      });
+      serviceList.appendChild(btn);
+    }
   }
 
   // ---- Бургер-меню ----
