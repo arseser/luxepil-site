@@ -37,7 +37,7 @@
   </header>
 
   <main>
-    <!-- ===== ГЕРОЙ (без фото) ===== -->
+    <!-- ===== ГЕРОЙ ===== -->
     <section class="hero">
       <div class="container hero__inner">
         <div class="hero__content" style="flex: 1; text-align: center; max-width: 800px; margin: 0 auto;">
@@ -46,7 +46,6 @@
           <p class="hero__subtitle">Лазерная эпиляция, маникюр, педикюр и депиляция. <br>Рейтинг <strong>5.0</strong> на Яндекс.Картах.</p>
           <a href="#booking" class="btn btn--large btn--primary">Записаться онлайн</a>
         </div>
-        <!-- Блок hero__image удалён -->
       </div>
     </section>
 
@@ -119,62 +118,20 @@
       </div>
     </section>
 
-    <!-- ===== ФОРМА ЗАПИСИ ===== -->
+    <!-- ===== БЛОК ЗАПИСИ (ТОЛЬКО КНОПКА-ССЫЛКА) ===== -->
     <section id="booking" class="booking">
       <div class="container">
-        <div class="booking__card">
-          <h2 class="section-title booking__title">Записаться онлайн</h2>
-          <form id="bookingForm" class="booking__form">
-            <div class="form-group">
-              <label for="bookingName">Ваше имя *</label>
-              <input type="text" id="bookingName" required placeholder="Например, Анна">
-            </div>
-            <div class="form-group">
-              <label for="bookingPhone">Телефон *</label>
-              <input type="tel" id="bookingPhone" required placeholder="+7 (900) 123-45-67">
-            </div>
-
-            <div class="form-group">
-              <label>Выберите услугу *</label>
-              <div class="custom-select" id="serviceSelect">
-                <div class="custom-select__trigger">
-                  <span class="custom-select__placeholder">Нажмите, чтобы выбрать услугу</span>
-                  <span class="custom-select__arrow">▼</span>
-                </div>
-                <div class="custom-select__options" id="serviceOptions"></div>
-              </div>
-              <input type="hidden" id="bookingService" value="">
-            </div>
-
-            <div class="form-group">
-              <label>Выберите мастера</label>
-              <div class="custom-select" id="masterSelect">
-                <div class="custom-select__trigger">
-                  <span class="custom-select__placeholder">Любой мастер</span>
-                  <span class="custom-select__arrow">▼</span>
-                </div>
-                <div class="custom-select__options" id="masterOptions"></div>
-              </div>
-              <input type="hidden" id="bookingMaster" value="">
-            </div>
-
-            <div class="form-group form-group--half">
-              <label for="bookingDate">Дата *</label>
-              <input type="date" id="bookingDate" required>
-            </div>
-            <div class="form-group form-group--half">
-              <label for="bookingTime">Время *</label>
-              <input type="time" id="bookingTime" required>
-            </div>
-
-            <div class="form-group">
-              <label for="bookingComment">Комментарий (до 500 символов)</label>
-              <textarea id="bookingComment" rows="3" maxlength="500" placeholder="Дополнительные пожелания"></textarea>
-            </div>
-
-            <button type="submit" class="btn btn--primary btn--large">Отправить заявку</button>
-            <div id="bookingMessage" class="booking__message"></div>
-          </form>
+        <div class="booking__card" style="text-align: center; padding: 60px 40px;">
+          <h2 class="section-title booking__title">Готовы записаться?</h2>
+          <p style="font-size: 18px; color: #7A6F6B; margin-bottom: 32px;">
+            Нажмите на кнопку ниже, чтобы перейти к форме записи
+          </p>
+          <a href="https://clck.ru/3B4viL" target="_blank" class="btn btn--large btn--primary" style="padding: 20px 60px; font-size: 22px;">
+            📅 Записаться онлайн
+          </a>
+          <p style="margin-top: 20px; font-size: 14px; color: #B8ADA7;">
+            Вы будете перенаправлены на форму записи
+          </p>
         </div>
       </div>
     </section>
