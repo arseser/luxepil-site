@@ -202,4 +202,44 @@ document.addEventListener('DOMContentLoaded', function () {
 
     services.forEach((item, index) => {
       const card = document.createElement('div');
-      card.class
+      card.className = 'service-card';
+      if (index >= initialShow) card.classList.add('service-card--hidden');
+      let imageHtml = item.image ? `<div class="service-card__image"><img src="${item.image}" alt="${item.name}" loading="lazy"></div>` : '';
+      card.innerHTML = `
+        ${imageHtml}
+        <h3>${item.name}</h3>
+        <div class="price">${item.price} ₽</div>
+        ${item.description ? `<div class="desc">${item.description}</div>` : ''}
+      `;
+      serviceList.appendChild(card);
+    });
+
+    const oldBtn = serviceList.querySelector('.services__show-all-btn');
+    if (oldBtn) oldBtn.remove();
+
+    if (services.length > initialShow) {
+      const btn = document.createElement('button');
+      btn.className = 'services__show-all-btn';
+      btn.textContent = `Показать все (${services.length - initialShow})`;
+      btn.addEventListener('click', function() {
+        document.querySelectorAll('.service-card--hidden').forEach(c => c.classList.remove('service-card--hidden'));
+        this.style.display = 'none';
+      });
+      serviceList.appendChild(btn);
+    }
+  }
+
+  // ---- Бургер ----
+  const burger = document.querySelector('.header__burger');
+  const nav = document.querySelector('.header__nav');
+  if (burger) {
+    burger.addEventListener('click', () => nav.classList.toggle('open'));
+    document.querySelectorAll('.header__nav a').forEach(link => {
+      link.addEventListener('click', () => nav.classList.remove('open'));
+    });
+  }
+
+  // ---- Запуск ----
+  loadSalons();
+  loadServices();
+});
