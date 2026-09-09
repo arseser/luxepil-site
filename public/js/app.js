@@ -1,246 +1,45 @@
-document.addEventListener('DOMContentLoaded', function () {
-  document.getElementById('year').textContent = new Date().getFullYear();
+// ... весь код до renderServices остаётся без изменений ...
 
-  // ---- Транслитерация для имён файлов ----
-  function transliterate(name) {
-    const map = {
-      'а': 'a', 'б': 'b', 'в': 'v', 'г': 'g', 'д': 'd', 'е': 'e', 'ё': 'e',
-      'ж': 'zh', 'з': 'z', 'и': 'i', 'й': 'y', 'к': 'k', 'л': 'l', 'м': 'm',
-      'н': 'n', 'о': 'o', 'п': 'p', 'р': 'r', 'с': 's', 'т': 't', 'у': 'u',
-      'ф': 'f', 'х': 'h', 'ц': 'ts', 'ч': 'ch', 'ш': 'sh', 'щ': 'sch', 'ъ': '',
-      'ы': 'y', 'ь': '', 'э': 'e', 'ю': 'yu', 'я': 'ya',
-      'А': 'A', 'Б': 'B', 'В': 'V', 'Г': 'G', 'Д': 'D', 'Е': 'E', 'Ё': 'E',
-      'Ж': 'Zh', 'З': 'Z', 'И': 'I', 'Й': 'Y', 'К': 'K', 'Л': 'L', 'М': 'M',
-      'Н': 'N', 'О': 'O', 'П': 'P', 'Р': 'R', 'С': 'S', 'Т': 'T', 'У': 'U',
-      'Ф': 'F', 'Х': 'H', 'Ц': 'Ts', 'Ч': 'Ch', 'Ш': 'Sh', 'Щ': 'Sch', 'Ъ': '',
-      'Ы': 'Y', 'Ь': '', 'Э': 'E', 'Ю': 'Yu', 'Я': 'Ya'
-    };
-    return name.split('').map(ch => map[ch] || ch).join('').replace(/[^a-zA-Z0-9]/g, '').toLowerCase();
-  }
+function renderServices(category) {
+  serviceList.innerHTML = '';
+  const services = category.services;
+  const total = services.length;
+  const initialShow = 3;
 
-  // ---- Загрузка салонов ----
-  let currentSalonId = 1;
-  let salonsData = [];
-
-  const salonsTabs = document.getElementById('salonsTabs');
-  const mastersGrid = document.getElementById('mastersGrid');
-  const reviewsGrid = document.getElementById('reviewsGrid');
-  const contactsContent = document.getElementById('contactsContent');
-  const mapLink = document.getElementById('mapLink');
-  const mapImage = document.getElementById('mapImage');
-  const whatsappLink = document.getElementById('whatsappLink');
-  const telegramLink = document.getElementById('telegramLink');
-  const vkLink = document.getElementById('vkLink');
-
-  async function loadSalons() {
-    try {
-      const res = await fetch('/api/salons');
-      const data = await res.json();
-      salonsData = data;
-      renderTabs(salonsData);
-      if (salonsData.length > 0) {
-        currentSalonId = salonsData[0].id;
-        renderSalon(currentSalonId);
-      }
-    } catch (err) {
-      console.error('Ошибка загрузки салонов:', err);
+  services.forEach((item, index) => {
+    const card = document.createElement('div');
+    card.className = 'service-card';
+    if (index >= initialShow) {
+      card.classList.add('service-card--hidden');
     }
-  }
-
-  function renderTabs(salons) {
-    salonsTabs.innerHTML = '';
-    salons.forEach(salon => {
-      const btn = document.createElement('button');
-      btn.className = 'salon-tab';
-      btn.textContent = salon.name;
-      btn.dataset.id = salon.id;
-      if (salon.id === currentSalonId) btn.classList.add('active');
-      btn.addEventListener('click', () => {
-        document.querySelectorAll('.salon-tab').forEach(b => b.classList.remove('active'));
-        btn.classList.add('active');
-        currentSalonId = salon.id;
-        renderSalon(salon.id);
-      });
-      salonsTabs.appendChild(btn);
-    });
-  }
-
-  function renderSalon(salonId) {
-    const salon = salonsData.find(s => s.id === salonId);
-    if (!salon) return;
-
-    renderMasters(salon.masters, salonId);
-    renderReviews(salon.reviews);
-
-    contactsContent.innerHTML = `
-      <p><strong>Адрес:</strong> ${salon.address}</p>
-      <p><strong>Телефон:</strong> <a href="tel:${salon.phone}">${salon.phone}</a></p>
-      <p><strong>Режим работы:</strong> ежедневно, 9:00 – 21:00</p>
+    
+    // Проверяем, есть ли изображение
+    let imageHtml = '';
+    if (item.image) {
+      imageHtml = `<div class="service-card__image"><img src="${item.image}" alt="${item.name}" loading="lazy"></div>`;
+    }
+    
+    card.innerHTML = `
+      ${imageHtml}
+      <h3>${item.name}</h3>
+      <div class="price">${item.price} ₽</div>
+      ${item.description ? `<div class="desc">${item.description}</div>` : ''}
     `;
-    whatsappLink.href = salon.whatsapp;
-    telegramLink.href = salon.telegram;
-    vkLink.href = salon.vk;
+    serviceList.appendChild(card);
+  });
 
-    const coords = salon.coordinates.split(',').map(s => s.trim());
-    const lat = coords[0];
-    const lng = coords[1];
-    const mapSrc = `https://api-maps.yandex.ru/services/static?ll=${lng},${lat}&z=16&l=map&size=600,300&pt=${lng},${lat},pm2rdl`;
-    mapImage.src = mapSrc;
-    mapImage.alt = `Карта проезда к ${salon.name}`;
-    mapLink.href = `https://yandex.ru/maps/?pt=${lng},${lat}&z=16`;
-  }
+  const oldBtn = serviceList.querySelector('.services__show-all-btn');
+  if (oldBtn) oldBtn.remove();
 
-  function renderMasters(masters, salonId) {
-    mastersGrid.innerHTML = '';
-    const folderMap = {
-      1: 'popova_7',
-      2: 'kaybitskaya_2',
-      3: 'otdradnaya_15'
-    };
-    const folder = folderMap[salonId] || 'popova_7';
-
-    masters.forEach(master => {
-      const card = document.createElement('div');
-      card.className = 'master-card';
-
-      const photoName = transliterate(master.name) + '.jpg';
-      const fullPath = `/images/masters/${folder}/${photoName}`;
-
-      const img = document.createElement('img');
-      img.src = fullPath;
-      img.alt = master.name;
-      img.style.width = '100px';
-      img.style.height = '100px';
-      img.style.borderRadius = '50%';
-      img.style.objectFit = 'cover';
-      img.onerror = function() {
-        this.style.display = 'none';
-        const fallback = document.createElement('span');
-        fallback.className = 'master-card__photo-fallback';
-        fallback.textContent = master.name.charAt(0);
-        fallback.style.cssText = `
-          width: 100px; height: 100px; border-radius: 50%;
-          background: #F0EAE5; display: flex; align-items: center;
-          justify-content: center; font-size: 36px; font-weight: 600;
-          color: #A67C6B; font-family: 'Playfair Display', serif;
-        `;
-        this.parentElement.appendChild(fallback);
-      };
-
-      const photoContainer = document.createElement('div');
-      photoContainer.className = 'master-card__photo';
-      photoContainer.appendChild(img);
-      card.appendChild(photoContainer);
-
-      const nameEl = document.createElement('h3');
-      nameEl.textContent = master.name;
-      card.appendChild(nameEl);
-
-      if (master.reviews) {
-        const ratingEl = document.createElement('div');
-        ratingEl.className = 'master-rating';
-        ratingEl.textContent = `★ 5.0 (${master.reviews} оценок)`;
-        card.appendChild(ratingEl);
-      }
-
-      const specEl = document.createElement('p');
-      specEl.textContent = master.specialization;
-      card.appendChild(specEl);
-
-      mastersGrid.appendChild(card);
+  if (total > initialShow) {
+    const btn = document.createElement('button');
+    btn.className = 'services__show-all-btn';
+    btn.textContent = `Показать все (${total - initialShow})`;
+    btn.addEventListener('click', function() {
+      const hiddenCards = serviceList.querySelectorAll('.service-card--hidden');
+      hiddenCards.forEach(card => card.classList.remove('service-card--hidden'));
+      this.style.display = 'none';
     });
+    serviceList.appendChild(btn);
   }
-
-  function renderReviews(reviews) {
-    reviewsGrid.innerHTML = '';
-    reviews.forEach(review => {
-      const card = document.createElement('div');
-      card.className = 'review-card';
-      card.innerHTML = `<p>“${review.text}”</p><span>— ${review.author}</span>`;
-      reviewsGrid.appendChild(card);
-    });
-  }
-
-  // ---- Загрузка услуг с кнопкой "Показать все" ----
-  const serviceTabs = document.getElementById('serviceTabs');
-  const serviceList = document.getElementById('serviceList');
-
-  async function loadServices() {
-    try {
-      const res = await fetch('/api/services');
-      const data = await res.json();
-      renderTabsServices(data.categories);
-      renderServices(data.categories[0]);
-    } catch (err) {
-      console.error('Ошибка загрузки услуг:', err);
-    }
-  }
-
-  function renderTabsServices(categories) {
-    serviceTabs.innerHTML = '';
-    categories.forEach((cat, index) => {
-      const btn = document.createElement('button');
-      btn.textContent = cat.name;
-      btn.dataset.index = index;
-      if (index === 0) btn.classList.add('active');
-      btn.addEventListener('click', () => {
-        document.querySelectorAll('.services__tabs button').forEach(b => b.classList.remove('active'));
-        btn.classList.add('active');
-        renderServices(categories[index]);
-      });
-      serviceTabs.appendChild(btn);
-    });
-  }
-
-  function renderServices(category) {
-    serviceList.innerHTML = '';
-    const services = category.services;
-    const total = services.length;
-    const initialShow = 3;
-
-    services.forEach((item, index) => {
-      const card = document.createElement('div');
-      card.className = 'service-card';
-      if (index >= initialShow) {
-        card.classList.add('service-card--hidden');
-      }
-      card.innerHTML = `
-        <h3>${item.name}</h3>
-        <div class="price">${item.price} ₽</div>
-        ${item.description ? `<div class="desc">${item.description}</div>` : ''}
-      `;
-      serviceList.appendChild(card);
-    });
-
-    const oldBtn = serviceList.querySelector('.services__show-all-btn');
-    if (oldBtn) oldBtn.remove();
-
-    if (total > initialShow) {
-      const btn = document.createElement('button');
-      btn.className = 'services__show-all-btn';
-      btn.textContent = `Показать все (${total - initialShow})`;
-      btn.addEventListener('click', function() {
-        const hiddenCards = serviceList.querySelectorAll('.service-card--hidden');
-        hiddenCards.forEach(card => card.classList.remove('service-card--hidden'));
-        this.style.display = 'none';
-      });
-      serviceList.appendChild(btn);
-    }
-  }
-
-  // ---- Бургер-меню ----
-  const burger = document.querySelector('.header__burger');
-  const nav = document.querySelector('.header__nav');
-  if (burger) {
-    burger.addEventListener('click', () => {
-      nav.classList.toggle('open');
-    });
-    document.querySelectorAll('.header__nav a').forEach(link => {
-      link.addEventListener('click', () => nav.classList.remove('open'));
-    });
-  }
-
-  // ---- Запуск ----
-  loadSalons();
-  loadServices();
-});
+}
