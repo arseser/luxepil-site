@@ -35,37 +35,55 @@ app.use(cors({
 const limiter = rateLimit({
   windowMs: 15 * 60 * 1000,
   max: 10,
-  message: { success: false, error: 'Слишком много заявок. Подождите 15 минут.' },
+  message: { success: false, error: 'Слишком много запросов. Подождите 15 минут.' },
   standardHeaders: true,
   legacyHeaders: false,
 });
 app.use('/api/booking', limiter);
-app.use('/api/slots', limiter);
 
 app.use(express.json({ limit: '1mb' }));
 app.use(express.static('public'));
 
 // ----- Загрузка данных -----
-const pricesData = JSON.parse(
-  fs.readFileSync(path.join(__dirname, 'data', 'prices.json'), 'utf8')
-);
+let pricesData = [];
+try {
+  pricesData = JSON.parse(
+    fs.readFileSync(path.join(__dirname, 'data', 'prices.json'), 'utf8')
+  );
+  console.log('✅ prices.json загружен');
+} catch (e) {
+  console.error('❌ Ошибка загрузки prices.json:', e.message);
+}
+
+let salonsData = [];
+try {
+  salonsData = JSON.parse(
+    fs.readFileSync(path.join(__dirname, 'data', 'salons.json'), 'utf8')
+  );
+  console.log('✅ salons.json загружен');
+} catch (e) {
+  console.error('❌ Ошибка загрузки salons.json:', e.message);
+}
 
 // ----- API -----
-app.get('/api/services', (req, res) => res.json(pricesData));
+app.get('/api/services', (req, res) => {
+  if (!pricesData || Object.keys(pricesData).length === 0) {
+    return res.status(500).json({ error: 'Данные услуг не загружены' });
+  }
+  res.json(pricesData);
+});
 
 app.get('/api/salons', (req, res) => {
-  try {
-    const salons = JSON.parse(
-      fs.readFileSync(path.join(__dirname, 'data', 'salons.json'), 'utf8')
-    );
-    res.json(salons);
-  } catch (e) {
-    res.json([]);
+  if (!salonsData || salonsData.length === 0) {
+    return res.status(500).json({ error: 'Данные салонов не загружены' });
   }
+  res.json(salonsData);
 });
 
 // ---- Запуск ----
 app.listen(PORT, () => {
   console.log(`🚀 Сервер Luxepil запущен на порту ${PORT}`);
   console.log(`🔒 CORS разрешён только для: ${allowedOrigin}`);
+  console.log(`📦 Загружено салонов: ${salonsData.length}`);
+  console.log(`📦 Загружено категорий услуг: ${pricesData.categories ? pricesData.categories.length : 0}`);
 });
