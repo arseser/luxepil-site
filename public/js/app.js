@@ -93,7 +93,25 @@ document.addEventListener('DOMContentLoaded', function () {
     const folders = { 1: 'popova_7', 2: 'kaybitskaya_2', 3: 'otdradnaya_15' };
     const folder = folders[salonId] || 'popova_7';
 
-    masters.forEach(master => {
+    // ===== СОРТИРОВКА МАСТЕРОВ =====
+    // 1. С примером работы (work_folder)
+    // 2. С описанием (description)
+    // 3. Остальные
+    const sortedMasters = [...masters].sort((a, b) => {
+      const aHasWork = a.work_folder ? 1 : 0;
+      const bHasWork = b.work_folder ? 1 : 0;
+      const aHasDesc = a.description ? 1 : 0;
+      const bHasDesc = b.description ? 1 : 0;
+
+      // Сначала те, у кого есть работа
+      if (aHasWork !== bHasWork) return bHasWork - aHasWork;
+      // Потом те, у кого есть описание
+      if (aHasDesc !== bHasDesc) return bHasDesc - aHasDesc;
+      // Остальные по алфавиту
+      return a.name.localeCompare(b.name);
+    });
+
+    sortedMasters.forEach(master => {
       const card = document.createElement('div');
       card.className = 'master-card';
 
