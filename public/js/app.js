@@ -231,6 +231,52 @@ document.addEventListener('DOMContentLoaded', function () {
     }
   }
 
+  // ===== АКЦИИ (4 карточки) =====
+  function loadPromo() {
+    const grid = document.getElementById('promoGrid');
+    if (!grid) return;
+
+    const promos = [
+      {
+        image: '/images/promo/promo-1.jpg',
+        title: 'Знакомство с лазером',
+        text: 'Первая процедура лазерной эпиляции — всего 1000 ₽'
+      },
+      {
+        image: '/images/promo/promo-2.jpg',
+        title: 'Комплекс S',
+        text: 'Глубокое бикини + подмышки — 3000 ₽'
+      },
+      {
+        image: '/images/promo/promo-3.jpg',
+        title: 'Комплекс L',
+        text: 'Глубокое бикини + ноги + подмышки — 6500 ₽'
+      },
+      {
+        image: '/images/promo/promo-4.jpg',
+        title: 'Лазерная эпиляция всего тела',
+        text: 'Полный комплекс зон — 10 000 ₽'
+      }
+    ];
+
+    grid.innerHTML = '';
+    promos.forEach(promo => {
+      const card = document.createElement('div');
+      card.className = 'promo-card';
+      card.innerHTML = `
+        <div class="promo-card__image">
+          <img src="${promo.image}" alt="${promo.title}" loading="lazy"
+               onerror="this.style.display='none'; this.parentElement.style.background='linear-gradient(135deg,#E8DDD4,#D4C5B2)';">
+        </div>
+        <div class="promo-card__body">
+          <h3>${promo.title}</h3>
+          <p>${promo.text}</p>
+        </div>
+      `;
+      grid.appendChild(card);
+    });
+  }
+
   // ===== ГАЛЕРЕЯ САЛОНОВ (9 фото) =====
   function loadAboutGallery() {
     const gallery = document.getElementById('aboutGallery');
@@ -299,6 +345,7 @@ document.addEventListener('DOMContentLoaded', function () {
     lb.classList.add('open');
   }
 
+  loadPromo();
   loadAboutGallery();
 
   const burger = document.querySelector('.header__burger');
