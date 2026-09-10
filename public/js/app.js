@@ -18,6 +18,8 @@ document.addEventListener('DOMContentLoaded', function () {
     return name.split('').map(ch => map[ch] || ch).join('').replace(/[^a-zA-Z0-9]/g, '').toLowerCase();
   }
 
+  const MAX_WORKS = 10;
+
   let currentSalonId = 1;
   let salonsData = [];
 
@@ -93,21 +95,19 @@ document.addEventListener('DOMContentLoaded', function () {
     const folders = { 1: 'popova_7', 2: 'kaybitskaya_2', 3: 'otdradnaya_15' };
     const folder = folders[salonId] || 'popova_7';
 
-    // ===== СОРТИРОВКА МАСТЕРОВ =====
-    // 1. С примером работы (work_folder)
-    // 2. С описанием (description)
-    // 3. Остальные
-    const sortedMasters = [...masters].sort((a, b) => {
-      const aHasWork = a.work_folder ? 1 : 0;
-      const bHasWork = b.work_folder ? 1 : 0;
-      const aHasDesc = a.description ? 1 : 0;
-      const bHasDesc = b.description ? 1 : 0;
+    function getPriority(master) {
+      const hasWork = master.work_folder ? 1 : 0;
+      const hasDesc = master.description ? 1 : 0;
+      if (hasWork && hasDesc) return 1;
+      if (hasWork && !hasDesc) return 2;
+      if (!hasWork && hasDesc) return 3;
+      return 4;
+    }
 
-      // Сначала те, у кого есть работа
-      if (aHasWork !== bHasWork) return bHasWork - aHasWork;
-      // Потом те, у кого есть описание
-      if (aHasDesc !== bHasDesc) return bHasDesc - aHasDesc;
-      // Остальные по алфавиту
+    const sortedMasters = [...masters].sort((a, b) => {
+      const pa = getPriority(a);
+      const pb = getPriority(b);
+      if (pa !== pb) return pa - pb;
       return a.name.localeCompare(b.name);
     });
 
@@ -115,7 +115,6 @@ document.addEventListener('DOMContentLoaded', function () {
       const card = document.createElement('div');
       card.className = 'master-card';
 
-      // Фото
       const photoName = transliterate(master.name) + '.jpg';
       const fullPath = `/images/masters/${folder}/${photoName}`;
 
@@ -135,18 +134,15 @@ document.addEventListener('DOMContentLoaded', function () {
       photoContainer.appendChild(img);
       card.appendChild(photoContainer);
 
-      // Имя
       const nameEl = document.createElement('h3');
       nameEl.textContent = master.name;
       card.appendChild(nameEl);
 
-      // Специализация
       const specEl = document.createElement('div');
       specEl.className = 'master-spec';
       specEl.textContent = master.specialization;
       card.appendChild(specEl);
 
-      // Рейтинг/отзывы
       if (master.reviews) {
         const ratingEl = document.createElement('div');
         ratingEl.className = 'master-rating';
@@ -154,7 +150,6 @@ document.addEventListener('DOMContentLoaded', function () {
         card.appendChild(ratingEl);
       }
 
-      // Описание + кнопка "Читать дальше"
       if (master.description) {
         const descEl = document.createElement('div');
         descEl.className = 'master-card__desc';
@@ -175,19 +170,80 @@ document.addEventListener('DOMContentLoaded', function () {
         card.appendChild(descEl);
       }
 
-      // Кнопка "Показать пример работы"
       if (master.work_folder) {
         const workBtn = document.createElement('button');
         workBtn.className = 'master-card__show-work';
-        workBtn.textContent = 'Показать пример работы';
+        workBtn.textContent = 'Показать примеры работ';
         workBtn.addEventListener('click', () => {
-          const workSrc = `/images/works/${folder}/${master.work_folder}/work-1.jpg`;
-          openLightbox(workSrc, `Работа мастера ${master.name}`);
+          openWorksLightbox(folder, master.work_folder, master.name);
         });
         card.appendChild(workBtn);
       }
 
       mastersGrid.appendChild(card);
+    });
+  }
+
+  function openWorksLightbox(folder, workFolder, masterName) {
+    initLightbox();
+    const lb = document.querySelector('.lightbox');
+    if (!lb) return;
+
+    const lbImg = lb.querySelector('.lightbox__img');
+    const prevBtn = lb.querySelector('.lightbox__prev');
+    const nextBtn = lb.querySelector('.lightbox__next');
+
+    const works = [];
+    let idx = 1;
+
+    function loadWorks() {
+      return new Promise((resolve) => {
+        function tryNext() {
+          if (idx > MAX_WORKS) {
+            resolve();
+            return;
+          }
+          const testSrc = `/images/works/${folder}/${workFolder}/work-${idx}.jpg`;
+          const testImg = new Image();
+          testImg.onload = () => {
+            works.push(testSrc);
+            idx++;
+            tryNext();
+          };
+          testImg.onerror = () => resolve();
+          testImg.src = testSrc;
+        }
+        tryNext();
+      });
+    }
+
+    let currentIdx = 0;
+    function showWork(i) {
+      if (works.length === 0) return;
+      currentIdx = (i + works.length) % works.length;
+      lbImg.src = works[currentIdx];
+      lbImg.alt = `Работа мастера ${masterName} (${currentIdx + 1}/${works.length})`;
+    }
+
+    if (prevBtn) prevBtn.style.display = 'none';
+    if (nextBtn) nextBtn.style.display = 'none';
+
+    if (prevBtn) prevBtn.onclick = (e) => { e.stopPropagation(); showWork(currentIdx - 1); };
+    if (nextBtn) nextBtn.onclick = (e) => { e.stopPropagation(); showWork(currentIdx + 1); };
+
+    loadWorks().then(() => {
+      if (works.length === 0) {
+        lbImg.src = '';
+        lbImg.alt = 'Работы не найдены';
+        lb.classList.add('open');
+        return;
+      }
+      showWork(0);
+      lb.classList.add('open');
+      if (works.length > 1) {
+        if (prevBtn) prevBtn.style.display = 'flex';
+        if (nextBtn) nextBtn.style.display = 'flex';
+      }
     });
   }
 
@@ -271,7 +327,6 @@ document.addEventListener('DOMContentLoaded', function () {
     }
   }
 
-  // ===== АКЦИИ =====
   function loadPromo() {
     const grid = document.getElementById('promoGrid');
     if (!grid) return;
@@ -326,7 +381,6 @@ document.addEventListener('DOMContentLoaded', function () {
     });
   }
 
-  // ===== ГАЛЕРЕЯ САЛОНОВ =====
   function loadAboutGallery() {
     const gallery = document.getElementById('aboutGallery');
     if (!gallery) return;
@@ -363,7 +417,6 @@ document.addEventListener('DOMContentLoaded', function () {
     });
   }
 
-  // ===== ЛАЙТБОКС =====
   function initLightbox() {
     if (document.querySelector('.lightbox')) return;
 
@@ -371,7 +424,9 @@ document.addEventListener('DOMContentLoaded', function () {
     lb.className = 'lightbox';
     lb.innerHTML = `
       <button class="lightbox__close" aria-label="Закрыть">&times;</button>
+      <button class="lightbox__prev" aria-label="Предыдущее">‹</button>
       <img class="lightbox__img" src="" alt="">
+      <button class="lightbox__next" aria-label="Следующее">›</button>
     `;
     document.body.appendChild(lb);
 
@@ -393,6 +448,10 @@ document.addEventListener('DOMContentLoaded', function () {
     const lb = document.querySelector('.lightbox');
     if (!lb) return;
     const lbImg = lb.querySelector('.lightbox__img');
+    const prevBtn = lb.querySelector('.lightbox__prev');
+    const nextBtn = lb.querySelector('.lightbox__next');
+    if (prevBtn) prevBtn.style.display = 'none';
+    if (nextBtn) nextBtn.style.display = 'none';
     lbImg.src = src;
     lbImg.alt = alt;
     lb.classList.add('open');
