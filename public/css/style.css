@@ -651,7 +651,6 @@ body {
   margin-bottom: 10px;
 }
 
-/* Описание мастера */
 .master-card__desc {
   font-size: 13px;
   color: #8A7A6F;
@@ -691,7 +690,6 @@ body {
   color: #B8A894;
 }
 
-/* Кнопка показать работу */
 .master-card__show-work {
   display: inline-block;
   margin-top: 8px;
@@ -876,6 +874,43 @@ body {
 
 .lightbox__close:hover {
   opacity: 1;
+}
+
+/* ===== СТРЕЛКИ В ЛАЙТБОКСЕ ===== */
+.lightbox__prev,
+.lightbox__next {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  background: rgba(245, 239, 234, 0.15);
+  border: 2px solid rgba(245, 239, 234, 0.4);
+  color: #F5EFEA;
+  font-size: 48px;
+  width: 60px;
+  height: 60px;
+  border-radius: 50%;
+  cursor: pointer;
+  display: none;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.3s;
+  line-height: 1;
+  font-family: 'Inter', sans-serif;
+  padding: 0;
+}
+
+.lightbox__prev:hover,
+.lightbox__next:hover {
+  background: rgba(245, 239, 234, 0.3);
+  border-color: rgba(245, 239, 234, 0.8);
+}
+
+.lightbox__prev {
+  left: 32px;
+}
+
+.lightbox__next {
+  right: 32px;
 }
 
 /* ===== КОНТАКТЫ ===== */
@@ -1199,6 +1234,15 @@ body {
   .contacts__map .map-link {
     height: 180px;
   }
+
+  .lightbox__prev,
+  .lightbox__next {
+    width: 44px;
+    height: 44px;
+    font-size: 32px;
+  }
+  .lightbox__prev { left: 12px; }
+  .lightbox__next { right: 12px; }
 }
 
 @media (max-width: 480px) {
