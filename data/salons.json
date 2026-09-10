@@ -10,8 +10,8 @@
     "coordinates": "55.795000,49.110000",
     "masters": [
       {
-        "name": "Топ мастер Алина",
-        "specialization": "Топ мастер ногтевого сервиса",
+        "name": "Алина",
+        "specialization": "Мастер ногтевого сервиса",
         "work_folder": "alina_top"
       },
       {
@@ -202,7 +202,7 @@
       },
       {
         "name": "Даша",
-        "specialization": "Топ мастер ногтевого сервиса",
+        "specialization": "Мастер ногтевого сервиса",
         "reviews": 190,
         "work_folder": "darya_top"
       },
