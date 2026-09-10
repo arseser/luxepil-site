@@ -62,7 +62,7 @@ document.addEventListener('DOMContentLoaded', function () {
     salons.forEach(salon => {
       const btn = document.createElement('button');
       btn.className = 'salon-tab';
-      btn.textContent = salon.name.replace(/^Luxepil\s+на\s+/i, '');
+      btn.textContent = salon.name;
       btn.dataset.id = salon.id;
       if (salon.id === currentSalonId) btn.classList.add('active');
       btn.addEventListener('click', () => {
