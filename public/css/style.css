@@ -395,8 +395,11 @@ body {
 }
 
 .promo-card__body {
-  padding: 24px;
+  padding: 28px 24px;
   text-align: center;
+  display: flex;
+  flex-direction: column;
+  flex-grow: 1;
 }
 
 .promo-card__body h3 {
@@ -404,13 +407,37 @@ body {
   font-weight: 700;
   font-size: 22px;
   color: #4A4038;
-  margin-bottom: 8px;
+  margin-bottom: 12px;
 }
 
 .promo-card__body p {
-  font-size: 16px;
+  font-size: 15px;
   color: #8A7A6F;
-  line-height: 1.5;
+  line-height: 1.6;
+  flex-grow: 1;
+  margin-bottom: 20px;
+}
+
+.promo-card__btn {
+  display: inline-block;
+  padding: 12px 28px;
+  background: #D4C5B2;
+  color: #4A4038;
+  font-weight: 600;
+  font-size: 15px;
+  text-decoration: none;
+  border-radius: 50px;
+  transition: all 0.3s;
+  font-family: 'Inter', sans-serif;
+  border: 2px solid #C9B8A5;
+  align-self: center;
+}
+
+.promo-card__btn:hover {
+  background: #C9B8A5;
+  color: #3D3631;
+  transform: translateY(-2px);
+  box-shadow: 0 8px 20px rgba(201, 184, 165, 0.3);
 }
 
 /* ===== УСЛУГИ ===== */
@@ -1049,6 +1076,48 @@ body {
   .services__list {
     grid-template-columns: 1fr;
   }
+
+  /* ===== МАСТЕРА — 3 В РЯД НА ТЕЛЕФОНЕ ===== */
+  .masters {
+    padding: 60px 0;
+  }
+  .masters__grid {
+    grid-template-columns: repeat(3, 1fr);
+    gap: 12px;
+    justify-items: stretch;
+  }
+  .master-card {
+    padding: 16px 8px 14px;
+    border-radius: 16px;
+    max-width: 100%;
+  }
+  .master-card__photo {
+    width: 60px;
+    height: 60px;
+    margin-bottom: 10px;
+  }
+  .master-card__photo img {
+    width: 60px;
+    height: 60px;
+  }
+  .master-card__photo-fallback {
+    width: 60px;
+    height: 60px;
+    font-size: 22px;
+  }
+  .master-card h3 {
+    font-size: 13px;
+    line-height: 1.3;
+  }
+  .master-card .master-rating {
+    font-size: 11px;
+    margin-top: 2px;
+  }
+  .master-card p {
+    font-size: 11px;
+    line-height: 1.3;
+  }
+
   .booking__card {
     padding: 32px 20px;
   }
@@ -1129,6 +1198,38 @@ body {
     font-size: 18px;
   }
   .promo-card__body p {
-    font-size: 15px;
+    font-size: 14px;
+  }
+
+  /* Мастера — компактнее на маленьких экранах */
+  .masters__grid {
+    gap: 8px;
+  }
+  .master-card {
+    padding: 12px 6px 10px;
+    border-radius: 12px;
+  }
+  .master-card__photo {
+    width: 50px;
+    height: 50px;
+    margin-bottom: 8px;
+  }
+  .master-card__photo img {
+    width: 50px;
+    height: 50px;
+  }
+  .master-card__photo-fallback {
+    width: 50px;
+    height: 50px;
+    font-size: 18px;
+  }
+  .master-card h3 {
+    font-size: 12px;
+  }
+  .master-card .master-rating {
+    font-size: 10px;
+  }
+  .master-card p {
+    font-size: 10px;
   }
 }
