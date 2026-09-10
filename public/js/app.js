@@ -97,8 +97,12 @@ document.addEventListener('DOMContentLoaded', function () {
       const card = document.createElement('div');
       card.className = 'master-card';
 
+      // Фото
       const photoName = transliterate(master.name) + '.jpg';
       const fullPath = `/images/masters/${folder}/${photoName}`;
+
+      const photoContainer = document.createElement('div');
+      photoContainer.className = 'master-card__photo';
 
       const img = document.createElement('img');
       img.src = fullPath;
@@ -110,26 +114,60 @@ document.addEventListener('DOMContentLoaded', function () {
         fallback.textContent = master.name.charAt(0);
         this.parentElement.appendChild(fallback);
       };
-
-      const photoContainer = document.createElement('div');
-      photoContainer.className = 'master-card__photo';
       photoContainer.appendChild(img);
       card.appendChild(photoContainer);
 
+      // Имя
       const nameEl = document.createElement('h3');
       nameEl.textContent = master.name;
       card.appendChild(nameEl);
 
+      // Специализация
+      const specEl = document.createElement('div');
+      specEl.className = 'master-spec';
+      specEl.textContent = master.specialization;
+      card.appendChild(specEl);
+
+      // Рейтинг/отзывы
       if (master.reviews) {
         const ratingEl = document.createElement('div');
         ratingEl.className = 'master-rating';
-        ratingEl.textContent = `★ 5.0 (${master.reviews})`;
+        ratingEl.textContent = `★ 5.0 (${master.reviews} отзывов)`;
         card.appendChild(ratingEl);
       }
 
-      const specEl = document.createElement('p');
-      specEl.textContent = master.specialization;
-      card.appendChild(specEl);
+      // Описание + кнопка "Читать дальше"
+      if (master.description) {
+        const descEl = document.createElement('div');
+        descEl.className = 'master-card__desc';
+
+        const textEl = document.createElement('div');
+        textEl.className = 'master-card__desc-text';
+        textEl.textContent = master.description;
+        descEl.appendChild(textEl);
+
+        const btn = document.createElement('button');
+        btn.className = 'master-card__read-more';
+        btn.textContent = 'Читать дальше';
+        btn.addEventListener('click', () => {
+          textEl.classList.toggle('expanded');
+          btn.textContent = textEl.classList.contains('expanded') ? 'Свернуть' : 'Читать дальше';
+        });
+        descEl.appendChild(btn);
+        card.appendChild(descEl);
+      }
+
+      // Кнопка "Показать пример работы"
+      if (master.work_folder) {
+        const workBtn = document.createElement('button');
+        workBtn.className = 'master-card__show-work';
+        workBtn.textContent = 'Показать пример работы';
+        workBtn.addEventListener('click', () => {
+          const workSrc = `/images/works/${folder}/${master.work_folder}/work-1.jpg`;
+          openLightbox(workSrc, `Работа мастера ${master.name}`);
+        });
+        card.appendChild(workBtn);
+      }
 
       mastersGrid.appendChild(card);
     });
@@ -215,7 +253,7 @@ document.addEventListener('DOMContentLoaded', function () {
     }
   }
 
-  // ===== АКЦИИ (4 карточки с текстом и кнопками) =====
+  // ===== АКЦИИ =====
   function loadPromo() {
     const grid = document.getElementById('promoGrid');
     if (!grid) return;
@@ -305,31 +343,35 @@ document.addEventListener('DOMContentLoaded', function () {
       item.addEventListener('click', () => openLightbox(src, img.alt));
       gallery.appendChild(item);
     });
+  }
 
-    if (!document.querySelector('.lightbox')) {
-      const lb = document.createElement('div');
-      lb.className = 'lightbox';
-      lb.innerHTML = `
-        <button class="lightbox__close" aria-label="Закрыть">&times;</button>
-        <img class="lightbox__img" src="" alt="">
-      `;
-      document.body.appendChild(lb);
+  // ===== ЛАЙТБОКС =====
+  function initLightbox() {
+    if (document.querySelector('.lightbox')) return;
 
-      const lbClose = lb.querySelector('.lightbox__close');
+    const lb = document.createElement('div');
+    lb.className = 'lightbox';
+    lb.innerHTML = `
+      <button class="lightbox__close" aria-label="Закрыть">&times;</button>
+      <img class="lightbox__img" src="" alt="">
+    `;
+    document.body.appendChild(lb);
 
-      lb.addEventListener('click', (e) => {
-        if (e.target === lb || e.target === lbClose) {
-          lb.classList.remove('open');
-        }
-      });
+    const lbClose = lb.querySelector('.lightbox__close');
 
-      document.addEventListener('keydown', (e) => {
-        if (e.key === 'Escape') lb.classList.remove('open');
-      });
-    }
+    lb.addEventListener('click', (e) => {
+      if (e.target === lb || e.target === lbClose) {
+        lb.classList.remove('open');
+      }
+    });
+
+    document.addEventListener('keydown', (e) => {
+      if (e.key === 'Escape') lb.classList.remove('open');
+    });
   }
 
   function openLightbox(src, alt) {
+    initLightbox();
     const lb = document.querySelector('.lightbox');
     if (!lb) return;
     const lbImg = lb.querySelector('.lightbox__img');
