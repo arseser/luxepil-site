@@ -31,13 +31,10 @@ document.addEventListener('DOMContentLoaded', function () {
   const vkLink = document.getElementById('vkLink');
 
   async function loadSalons() {
-    console.log('🔄 Загружаем салоны...');
     try {
       const res = await fetch('/api/salons');
-      console.log('📡 Статус ответа /api/salons:', res.status);
       if (!res.ok) throw new Error('Ошибка загрузки салонов');
       const data = await res.json();
-      console.log('📦 Получено салонов:', data.length);
       if (!data || data.length === 0) {
         salonsTabs.innerHTML = '<p style="text-align:center;color:#c0392b;padding:10px;">Нет данных о салонах</p>';
         return;
@@ -106,21 +103,11 @@ document.addEventListener('DOMContentLoaded', function () {
       const img = document.createElement('img');
       img.src = fullPath;
       img.alt = master.name;
-      img.style.width = '100px';
-      img.style.height = '100px';
-      img.style.borderRadius = '50%';
-      img.style.objectFit = 'cover';
       img.onerror = function() {
         this.style.display = 'none';
         const fallback = document.createElement('span');
         fallback.className = 'master-card__photo-fallback';
         fallback.textContent = master.name.charAt(0);
-        fallback.style.cssText = `
-          width: 100px; height: 100px; border-radius: 50%;
-          background: #E8DDD4; display: flex; align-items: center;
-          justify-content: center; font-size: 36px; font-weight: 600;
-          color: #6B5F55; font-family: 'Playfair Display', serif;
-        `;
         this.parentElement.appendChild(fallback);
       };
 
@@ -136,7 +123,7 @@ document.addEventListener('DOMContentLoaded', function () {
       if (master.reviews) {
         const ratingEl = document.createElement('div');
         ratingEl.className = 'master-rating';
-        ratingEl.textContent = `★ 5.0 (${master.reviews} оценок)`;
+        ratingEl.textContent = `★ 5.0 (${master.reviews})`;
         card.appendChild(ratingEl);
       }
 
@@ -162,13 +149,10 @@ document.addEventListener('DOMContentLoaded', function () {
   const serviceList = document.getElementById('serviceList');
 
   async function loadServices() {
-    console.log('🔄 Загружаем услуги...');
     try {
       const res = await fetch('/api/services');
-      console.log('📡 Статус ответа /api/services:', res.status);
       if (!res.ok) throw new Error('Ошибка загрузки услуг');
       const data = await res.json();
-      console.log('📦 Получены услуги, категорий:', data.categories ? data.categories.length : 0);
       if (!data.categories || data.categories.length === 0) {
         serviceTabs.innerHTML = '<p style="text-align:center;color:#c0392b;padding:10px;">Нет категорий услуг</p>';
         return;
@@ -231,7 +215,7 @@ document.addEventListener('DOMContentLoaded', function () {
     }
   }
 
-  // ===== АКЦИИ (4 карточки) =====
+  // ===== АКЦИИ (4 карточки с текстом и кнопками) =====
   function loadPromo() {
     const grid = document.getElementById('promoGrid');
     if (!grid) return;
@@ -239,23 +223,31 @@ document.addEventListener('DOMContentLoaded', function () {
     const promos = [
       {
         image: '/images/promo/promo-1.jpg',
-        title: 'Знакомство с лазером',
-        text: 'Первая процедура лазерной эпиляции — всего 1000 ₽'
+        title: 'Знакомство с лазерной эпиляцией',
+        text: 'Дарим -1000 ₽ на первое посещение любого комплекса лазерной эпиляции. Попробуйте премиальный уход с максимальной выгодой!',
+        button: 'Записаться со скидкой',
+        link: 'https://clck.ru/3B4viL'
       },
       {
         image: '/images/promo/promo-2.jpg',
-        title: 'Комплекс S',
-        text: 'Глубокое бикини + подмышки — 3000 ₽'
+        title: 'Разделите бьюти-день с подругой',
+        text: 'Поделитесь заботой! Подарите подруге сертификат на -500 ₽ на её первый визит в наш салон, а мы начислим вам бонусы на следующий сеанс.',
+        button: 'Получить сертификат',
+        link: 'https://clck.ru/3B4viL'
       },
       {
         image: '/images/promo/promo-3.jpg',
-        title: 'Комплекс L',
-        text: 'Глубокое бикини + ноги + подмышки — 6500 ₽'
+        title: 'День рождения в Luxepil',
+        text: 'Сияйте в свой особенный день! Дарим скидку 15% на любые услуги эпиляции и ногтевого сервиса (действует в день рождения, а также 3 дня до и после него).',
+        button: 'Забронировать дату',
+        link: 'https://clck.ru/3B4viL'
       },
       {
         image: '/images/promo/promo-4.jpg',
-        title: 'Лазерная эпиляция всего тела',
-        text: 'Полный комплекс зон — 10 000 ₽'
+        title: 'Умный кешбэк',
+        text: 'Оплачивайте услуги наличными и получайте повышенный кешбэк 5% на ваш бонусный счет.',
+        button: 'Записаться онлайн',
+        link: 'https://clck.ru/3B4viL'
       }
     ];
 
@@ -271,13 +263,14 @@ document.addEventListener('DOMContentLoaded', function () {
         <div class="promo-card__body">
           <h3>${promo.title}</h3>
           <p>${promo.text}</p>
+          <a href="${promo.link}" target="_blank" class="promo-card__btn">${promo.button}</a>
         </div>
       `;
       grid.appendChild(card);
     });
   }
 
-  // ===== ГАЛЕРЕЯ САЛОНОВ (9 фото) =====
+  // ===== ГАЛЕРЕЯ САЛОНОВ =====
   function loadAboutGallery() {
     const gallery = document.getElementById('aboutGallery');
     if (!gallery) return;
