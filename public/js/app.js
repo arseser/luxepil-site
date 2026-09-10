@@ -26,7 +26,6 @@ document.addEventListener('DOMContentLoaded', function () {
   }
 
   const MAX_WORKS = 10;
-
   let currentSalonId = 1;
   let salonsData = [];
 
@@ -63,7 +62,7 @@ document.addEventListener('DOMContentLoaded', function () {
     salons.forEach(salon => {
       const btn = document.createElement('button');
       btn.className = 'salon-tab';
-      btn.textContent = salon.name;
+      btn.textContent = salon.name.replace(/^Luxepil\s+на\s+/i, '');
       btn.dataset.id = salon.id;
       if (salon.id === currentSalonId) btn.classList.add('active');
       btn.addEventListener('click', () => {
@@ -92,9 +91,7 @@ document.addEventListener('DOMContentLoaded', function () {
     vkLink.href = salon.vk;
 
     const coords = salon.coordinates.split(',').map(s => s.trim());
-    const lat = coords[0];
-    const lng = coords[1];
-    mapLink.href = `https://yandex.ru/maps/?pt=${lng},${lat}&z=16`;
+    mapLink.href = `https://yandex.ru/maps/?pt=${coords[1]},${coords[0]}&z=16`;
   }
 
   function renderMasters(masters, salonId) {
@@ -122,7 +119,6 @@ document.addEventListener('DOMContentLoaded', function () {
       const card = document.createElement('div');
       card.className = 'master-card';
 
-      // Фото
       const photoName = transliterate(master.name) + '.jpg';
       const fullPath = `/images/masters/${folder}/${photoName}`;
 
@@ -142,18 +138,15 @@ document.addEventListener('DOMContentLoaded', function () {
       photoContainer.appendChild(img);
       card.appendChild(photoContainer);
 
-      // Имя
       const nameEl = document.createElement('h3');
       nameEl.textContent = master.name;
       card.appendChild(nameEl);
 
-      // Специализация
       const specEl = document.createElement('div');
       specEl.className = 'master-spec';
       specEl.textContent = master.specialization;
       card.appendChild(specEl);
 
-      // Рейтинг
       if (master.reviews) {
         const ratingEl = document.createElement('div');
         ratingEl.className = 'master-rating';
@@ -161,11 +154,9 @@ document.addEventListener('DOMContentLoaded', function () {
         card.appendChild(ratingEl);
       }
 
-      // Описание
       if (master.description) {
         const descEl = document.createElement('div');
         descEl.className = 'master-card__desc';
-
         const textEl = document.createElement('div');
         textEl.className = 'master-card__desc-text';
         textEl.textContent = master.description;
@@ -182,7 +173,6 @@ document.addEventListener('DOMContentLoaded', function () {
         card.appendChild(descEl);
       }
 
-      // Кнопка "Показать примеры работ"
       if (master.work_folder) {
         const workBtn = document.createElement('button');
         workBtn.className = 'master-card__show-work';
@@ -212,17 +202,10 @@ document.addEventListener('DOMContentLoaded', function () {
     function loadWorks() {
       return new Promise((resolve) => {
         function tryNext() {
-          if (idx > MAX_WORKS) {
-            resolve();
-            return;
-          }
+          if (idx > MAX_WORKS) { resolve(); return; }
           const testSrc = `/images/works/${folder}/${workFolder}/work-${idx}.jpg`;
           const testImg = new Image();
-          testImg.onload = () => {
-            works.push(testSrc);
-            idx++;
-            tryNext();
-          };
+          testImg.onload = () => { works.push(testSrc); idx++; tryNext(); };
           testImg.onerror = () => resolve();
           testImg.src = testSrc;
         }
@@ -240,7 +223,6 @@ document.addEventListener('DOMContentLoaded', function () {
 
     if (prevBtn) prevBtn.style.display = 'none';
     if (nextBtn) nextBtn.style.display = 'none';
-
     if (prevBtn) prevBtn.onclick = (e) => { e.stopPropagation(); showWork(currentIdx - 1); };
     if (nextBtn) nextBtn.onclick = (e) => { e.stopPropagation(); showWork(currentIdx + 1); };
 
@@ -345,34 +327,10 @@ document.addEventListener('DOMContentLoaded', function () {
     if (!grid) return;
 
     const promos = [
-      {
-        image: '/images/promo/promo-1.jpg',
-        title: 'Знакомство с лазерной эпиляцией',
-        text: 'Дарим -1000 ₽ на первое посещение любого комплекса лазерной эпиляции. Попробуйте премиальный уход с максимальной выгодой!',
-        button: 'Записаться со скидкой',
-        link: 'https://clck.ru/3B4viL'
-      },
-      {
-        image: '/images/promo/promo-2.jpg',
-        title: 'Разделите бьюти-день с подругой',
-        text: 'Поделитесь заботой! Подарите подруге сертификат на -500 ₽ на её первый визит в наш салон, а мы начислим вам бонусы на следующий сеанс.',
-        button: 'Получить сертификат',
-        link: 'https://clck.ru/3B4viL'
-      },
-      {
-        image: '/images/promo/promo-3.jpg',
-        title: 'День рождения в Luxepil',
-        text: 'Сияйте в свой особенный день! Дарим скидку 15% на любые услуги эпиляции и ногтевого сервиса (действует в день рождения, а также 3 дня до и после него).',
-        button: 'Забронировать дату',
-        link: 'https://clck.ru/3B4viL'
-      },
-      {
-        image: '/images/promo/promo-4.jpg',
-        title: 'Умный кешбэк',
-        text: 'Оплачивайте услуги наличными и получайте повышенный кешбэк 5% на ваш бонусный счет.',
-        button: 'Записаться онлайн',
-        link: 'https://clck.ru/3B4viL'
-      }
+      { image: '/images/promo/promo-1.jpg', title: 'Знакомство с лазерной эпиляцией', text: 'Дарим -1000 ₽ на первое посещение любого комплекса лазерной эпиляции. Попробуйте премиальный уход с максимальной выгодой!', button: 'Записаться со скидкой', link: 'https://clck.ru/3B4viL' },
+      { image: '/images/promo/promo-2.jpg', title: 'Разделите бьюти-день с подругой', text: 'Поделитесь заботой! Подарите подруге сертификат на -500 ₽ на её первый визит в наш салон, а мы начислим вам бонусы на следующий сеанс.', button: 'Получить сертификат', link: 'https://clck.ru/3B4viL' },
+      { image: '/images/promo/promo-3.jpg', title: 'День рождения в Luxepil', text: 'Сияйте в свой особенный день! Дарим скидку 15% на любые услуги эпиляции и ногтевого сервиса (действует в день рождения, а также 3 дня до и после него).', button: 'Забронировать дату', link: 'https://clck.ru/3B4viL' },
+      { image: '/images/promo/promo-4.jpg', title: 'Умный кешбэк', text: 'Оплачивайте услуги наличными и получайте повышенный кешбэк 5% на ваш бонусный счет.', button: 'Записаться онлайн', link: 'https://clck.ru/3B4viL' }
     ];
 
     grid.innerHTML = '';
@@ -381,8 +339,7 @@ document.addEventListener('DOMContentLoaded', function () {
       card.className = 'promo-card';
       card.innerHTML = `
         <div class="promo-card__image">
-          <img src="${promo.image}" alt="${promo.title}" loading="lazy"
-               onerror="this.style.display='none'; this.parentElement.style.background='linear-gradient(135deg,#E8DDD4,#D4C5B2)';">
+          <img src="${promo.image}" alt="${promo.title}" loading="lazy" onerror="this.style.display='none'; this.parentElement.style.background='linear-gradient(135deg,#E8DDD4,#D4C5B2)';">
         </div>
         <div class="promo-card__body">
           <h3>${promo.title}</h3>
@@ -399,22 +356,15 @@ document.addEventListener('DOMContentLoaded', function () {
     if (!gallery) return;
 
     const photos = [
-      '/images/salons/salon-1.jpg',
-      '/images/salons/salon-2.jpg',
-      '/images/salons/salon-3.jpg',
-      '/images/salons/salon-4.jpg',
-      '/images/salons/salon-5.jpg',
-      '/images/salons/salon-6.jpg',
-      '/images/salons/salon-7.jpg',
-      '/images/salons/salon-8.jpg',
-      '/images/salons/salon-9.jpg'
+      '/images/salons/salon-1.jpg', '/images/salons/salon-2.jpg', '/images/salons/salon-3.jpg',
+      '/images/salons/salon-4.jpg', '/images/salons/salon-5.jpg', '/images/salons/salon-6.jpg',
+      '/images/salons/salon-7.jpg', '/images/salons/salon-8.jpg', '/images/salons/salon-9.jpg'
     ];
 
     gallery.innerHTML = '';
     photos.forEach((src, index) => {
       const item = document.createElement('div');
       item.className = 'about__gallery-item';
-
       const img = document.createElement('img');
       img.src = src;
       img.alt = `Салон Luxepil ${index + 1}`;
@@ -423,7 +373,6 @@ document.addEventListener('DOMContentLoaded', function () {
         this.style.display = 'none';
         this.parentElement.style.background = 'linear-gradient(135deg, #E8DDD4, #D4C5B2)';
       };
-
       item.appendChild(img);
       item.addEventListener('click', () => openLightbox(src, img.alt));
       gallery.appendChild(item);
@@ -432,7 +381,6 @@ document.addEventListener('DOMContentLoaded', function () {
 
   function initLightbox() {
     if (document.querySelector('.lightbox')) return;
-
     const lb = document.createElement('div');
     lb.className = 'lightbox';
     lb.innerHTML = `
@@ -444,13 +392,9 @@ document.addEventListener('DOMContentLoaded', function () {
     document.body.appendChild(lb);
 
     const lbClose = lb.querySelector('.lightbox__close');
-
     lb.addEventListener('click', (e) => {
-      if (e.target === lb || e.target === lbClose) {
-        lb.classList.remove('open');
-      }
+      if (e.target === lb || e.target === lbClose) lb.classList.remove('open');
     });
-
     document.addEventListener('keydown', (e) => {
       if (e.key === 'Escape') lb.classList.remove('open');
     });
