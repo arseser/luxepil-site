@@ -19,7 +19,7 @@ body {
   padding: 0 24px;
 }
 
-/* ===== КНОПКИ (СВЕТЛЫЕ ПЕСОЧНЫЕ) ===== */
+/* ===== КНОПКИ ===== */
 .btn {
   display: inline-block;
   padding: 14px 36px;
@@ -87,8 +87,9 @@ body {
 
 .header__logo img {
   display: block;
-  height: 60px;
-  width: auto;
+  height: 90px;
+  width: 140px;
+  object-fit: contain;
 }
 
 .header__nav {
@@ -152,41 +153,90 @@ body {
 
 .hero__inner {
   display: flex;
+  justify-content: center;
   align-items: center;
-  gap: 60px;
 }
 
 .hero__content {
-  flex: 1;
+  max-width: 640px;
+  width: 100%;
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 20px;
 }
 
-.hero__tag {
-  display: inline-block;
-  font-size: 14px;
+.hero-title {
+  font-family: 'Inter', sans-serif;
   font-weight: 600;
-  letter-spacing: 1px;
-  text-transform: uppercase;
-  color: #C9B8A5;
-  background: rgba(201, 184, 165, 0.15);
-  padding: 6px 16px;
-  border-radius: 50px;
-  margin-bottom: 20px;
+  font-size: 36px;
+  line-height: 1.2;
+  color: #3E332B;
+  text-align: left;
+  width: 100%;
+  margin: 0 0 8px 0;
+  letter-spacing: -0.3px;
 }
 
-.hero__title {
-  font-family: 'Playfair Display', serif;
+.hero-subtitle {
+  font-family: 'Inter', sans-serif;
   font-weight: 700;
-  font-size: 64px;
-  line-height: 1.1;
-  color: #4A4038;
-  margin-bottom: 16px;
+  font-size: 13px;
+  line-height: 1.5;
+  letter-spacing: 1.2px;
+  text-transform: uppercase;
+  color: #3E332B;
+  text-align: left;
+  width: 100%;
+  margin: 0 0 24px 0;
+  opacity: 0.75;
 }
 
-.hero__subtitle {
-  font-size: 20px;
-  color: #8A7A6F;
-  margin-bottom: 32px;
-  font-weight: 400;
+.hero-logo {
+  height: 160px;
+  width: auto;
+  max-width: 400px;
+  margin: 0 auto;
+  filter: brightness(0) saturate(100%) invert(70%) sepia(30%) saturate(500%) hue-rotate(5deg);
+}
+
+.badge-dark {
+  display: inline-block;
+  background: #3E332B;
+  color: #F5EFEA;
+  font-family: 'Inter', sans-serif;
+  font-weight: 600;
+  font-size: 12px;
+  letter-spacing: 1.5px;
+  text-transform: uppercase;
+  padding: 10px 24px;
+  border-radius: 999px;
+  margin: 0 auto;
+}
+
+.hero-text {
+  font-family: 'Inter', sans-serif;
+  font-size: 16px;
+  line-height: 1.6;
+  color: #3E332B;
+  text-align: center;
+  margin: 0;
+  opacity: 0.85;
+}
+
+.hero-text-bold {
+  font-weight: 700;
+  opacity: 1;
+}
+
+.hero-text-bold strong {
+  font-weight: 700;
+  color: #3E332B;
+}
+
+.hero .btn {
+  margin-top: 12px;
 }
 
 /* ===== ПРЕИМУЩЕСТВА ===== */
@@ -539,6 +589,137 @@ body {
   display: block;
 }
 
+/* ===== О КОМПАНИИ ===== */
+.about {
+  padding: 80px 0;
+  background: #F0EAE4;
+}
+
+.about__text {
+  max-width: 900px;
+  margin: 0 auto 48px;
+  text-align: left;
+  font-size: 17px;
+  line-height: 1.8;
+  color: #5A5047;
+}
+
+.about__text p {
+  margin-bottom: 16px;
+}
+
+.about__text strong {
+  color: #4A4038;
+  font-weight: 700;
+}
+
+.about__list {
+  list-style: none;
+  padding: 0;
+  margin: 0 0 16px 0;
+}
+
+.about__list li {
+  position: relative;
+  padding-left: 24px;
+  margin-bottom: 10px;
+  line-height: 1.6;
+}
+
+.about__list li::before {
+  content: '✦';
+  position: absolute;
+  left: 0;
+  color: #C9B8A5;
+  font-size: 16px;
+}
+
+.about__cta {
+  text-align: center;
+  font-size: 18px;
+  font-weight: 600;
+  color: #4A4038;
+  margin-top: 24px;
+  font-style: italic;
+}
+
+.about__gallery {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 20px;
+}
+
+.about__gallery-item {
+  position: relative;
+  width: 100%;
+  aspect-ratio: 1 / 1;
+  border-radius: 16px;
+  overflow: hidden;
+  background: #E8DDD4;
+  cursor: pointer;
+  transition: transform 0.4s ease, box-shadow 0.4s ease;
+}
+
+.about__gallery-item:hover {
+  transform: translateY(-4px) scale(1.01);
+  box-shadow: 0 16px 40px rgba(201, 184, 165, 0.35);
+}
+
+.about__gallery-item img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+  transition: transform 0.6s ease;
+}
+
+.about__gallery-item:hover img {
+  transform: scale(1.06);
+}
+
+/* ===== ЛАЙТБОКС ===== */
+.lightbox {
+  position: fixed;
+  inset: 0;
+  background: rgba(62, 51, 43, 0.92);
+  display: none;
+  align-items: center;
+  justify-content: center;
+  z-index: 1000;
+  padding: 24px;
+  cursor: zoom-out;
+}
+
+.lightbox.open {
+  display: flex;
+}
+
+.lightbox__img {
+  max-width: 90vw;
+  max-height: 90vh;
+  border-radius: 16px;
+  box-shadow: 0 30px 80px rgba(0, 0, 0, 0.5);
+  object-fit: contain;
+}
+
+.lightbox__close {
+  position: absolute;
+  top: 24px;
+  right: 32px;
+  background: none;
+  border: none;
+  color: #F5EFEA;
+  font-size: 42px;
+  cursor: pointer;
+  line-height: 1;
+  opacity: 0.8;
+  transition: opacity 0.3s;
+}
+
+.lightbox__close:hover {
+  opacity: 1;
+}
+
 /* ===== КОНТАКТЫ ===== */
 .contacts {
   padding: 80px 0;
@@ -709,11 +890,18 @@ body {
     flex-direction: column;
     text-align: center;
   }
-  .hero__title {
-    font-size: 48px;
+  .hero-title {
+    font-size: 32px;
   }
   .advantages__grid {
     grid-template-columns: 1fr 1fr;
+  }
+  .about__gallery {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 16px;
+  }
+  .about__text {
+    font-size: 16px;
   }
   .contacts__inner {
     flex-direction: column;
@@ -749,11 +937,30 @@ body {
     display: flex;
   }
   .header__logo img {
-    height: 45px;
+    height: 60px;
+    width: 100px;
   }
-  .hero__title {
-    font-size: 36px;
+
+  .hero {
+    padding: 60px 0 40px;
   }
+  .hero-title {
+    font-size: 28px;
+    text-align: center;
+  }
+  .hero-subtitle {
+    font-size: 12px;
+    text-align: center;
+    letter-spacing: 1px;
+  }
+  .hero-logo {
+    height: 120px;
+    max-width: 300px;
+  }
+  .hero__content {
+    gap: 16px;
+  }
+
   .advantages__grid {
     grid-template-columns: 1fr;
   }
@@ -782,8 +989,22 @@ body {
   .hero {
     padding: 40px 0;
   }
-  .hero__title {
-    font-size: 28px;
+  .hero-title {
+    font-size: 24px;
+  }
+  .hero-subtitle {
+    font-size: 11px;
+  }
+  .hero-logo {
+    height: 100px;
+    max-width: 240px;
+  }
+  .hero-text {
+    font-size: 15px;
+  }
+  .badge-dark {
+    font-size: 11px;
+    padding: 8px 18px;
   }
   .section-title {
     font-size: 28px;
@@ -796,6 +1017,24 @@ body {
     padding: 8px 16px;
   }
   .header__logo img {
-    height: 40px;
+    height: 50px;
+    width: 80px;
+  }
+  .about {
+    padding: 60px 0;
+  }
+  .about__gallery {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 12px;
+  }
+  .about__gallery-item {
+    border-radius: 12px;
+  }
+  .about__text {
+    font-size: 15px;
+    margin-bottom: 32px;
+  }
+  .about__cta {
+    font-size: 16px;
   }
 }
