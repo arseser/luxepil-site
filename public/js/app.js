@@ -119,7 +119,7 @@ document.addEventListener('DOMContentLoaded', function () {
           width: 100px; height: 100px; border-radius: 50%;
           background: #E8DDD4; display: flex; align-items: center;
           justify-content: center; font-size: 36px; font-weight: 600;
-          color: #D4A373; font-family: 'Playfair Display', serif;
+          color: #6B5F55; font-family: 'Playfair Display', serif;
         `;
         this.parentElement.appendChild(fallback);
       };
@@ -158,7 +158,6 @@ document.addEventListener('DOMContentLoaded', function () {
     });
   }
 
-  // ---- Загрузка услуг ----
   const serviceTabs = document.getElementById('serviceTabs');
   const serviceList = document.getElementById('serviceList');
 
@@ -232,7 +231,76 @@ document.addEventListener('DOMContentLoaded', function () {
     }
   }
 
-  // ---- Бургер ----
+  // ===== ГАЛЕРЕЯ САЛОНОВ (9 фото) =====
+  function loadAboutGallery() {
+    const gallery = document.getElementById('aboutGallery');
+    if (!gallery) return;
+
+    const photos = [
+      '/images/salons/salon-1.jpg',
+      '/images/salons/salon-2.jpg',
+      '/images/salons/salon-3.jpg',
+      '/images/salons/salon-4.jpg',
+      '/images/salons/salon-5.jpg',
+      '/images/salons/salon-6.jpg',
+      '/images/salons/salon-7.jpg',
+      '/images/salons/salon-8.jpg',
+      '/images/salons/salon-9.jpg'
+    ];
+
+    gallery.innerHTML = '';
+    photos.forEach((src, index) => {
+      const item = document.createElement('div');
+      item.className = 'about__gallery-item';
+
+      const img = document.createElement('img');
+      img.src = src;
+      img.alt = `Салон Luxepil ${index + 1}`;
+      img.loading = 'lazy';
+      img.onerror = function() {
+        this.style.display = 'none';
+        this.parentElement.style.background = 'linear-gradient(135deg, #E8DDD4, #D4C5B2)';
+      };
+
+      item.appendChild(img);
+      item.addEventListener('click', () => openLightbox(src, img.alt));
+      gallery.appendChild(item);
+    });
+
+    if (!document.querySelector('.lightbox')) {
+      const lb = document.createElement('div');
+      lb.className = 'lightbox';
+      lb.innerHTML = `
+        <button class="lightbox__close" aria-label="Закрыть">&times;</button>
+        <img class="lightbox__img" src="" alt="">
+      `;
+      document.body.appendChild(lb);
+
+      const lbClose = lb.querySelector('.lightbox__close');
+
+      lb.addEventListener('click', (e) => {
+        if (e.target === lb || e.target === lbClose) {
+          lb.classList.remove('open');
+        }
+      });
+
+      document.addEventListener('keydown', (e) => {
+        if (e.key === 'Escape') lb.classList.remove('open');
+      });
+    }
+  }
+
+  function openLightbox(src, alt) {
+    const lb = document.querySelector('.lightbox');
+    if (!lb) return;
+    const lbImg = lb.querySelector('.lightbox__img');
+    lbImg.src = src;
+    lbImg.alt = alt;
+    lb.classList.add('open');
+  }
+
+  loadAboutGallery();
+
   const burger = document.querySelector('.header__burger');
   const nav = document.querySelector('.header__nav');
   if (burger) {
@@ -242,7 +310,6 @@ document.addEventListener('DOMContentLoaded', function () {
     });
   }
 
-  // ---- Запуск ----
   loadSalons();
   loadServices();
 });
