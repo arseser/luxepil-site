@@ -15,7 +15,14 @@ document.addEventListener('DOMContentLoaded', function () {
       'Ф': 'F', 'Х': 'H', 'Ц': 'Ts', 'Ч': 'Ch', 'Ш': 'Sh', 'Щ': 'Sch', 'Ъ': '',
       'Ы': 'Y', 'Ь': '', 'Э': 'E', 'Ю': 'Yu', 'Я': 'Ya'
     };
-    return name.split('').map(ch => map[ch] || ch).join('').replace(/[^a-zA-Z0-9]/g, '').toLowerCase();
+    return name
+      .split('')
+      .map(ch => map[ch] || ch)
+      .join('')
+      .replace(/[^a-zA-Z0-9]/g, '_')
+      .replace(/_+/g, '_')
+      .replace(/^_|_$/g, '')
+      .toLowerCase();
   }
 
   const MAX_WORKS = 10;
@@ -115,6 +122,7 @@ document.addEventListener('DOMContentLoaded', function () {
       const card = document.createElement('div');
       card.className = 'master-card';
 
+      // Фото
       const photoName = transliterate(master.name) + '.jpg';
       const fullPath = `/images/masters/${folder}/${photoName}`;
 
@@ -134,15 +142,18 @@ document.addEventListener('DOMContentLoaded', function () {
       photoContainer.appendChild(img);
       card.appendChild(photoContainer);
 
+      // Имя
       const nameEl = document.createElement('h3');
       nameEl.textContent = master.name;
       card.appendChild(nameEl);
 
+      // Специализация
       const specEl = document.createElement('div');
       specEl.className = 'master-spec';
       specEl.textContent = master.specialization;
       card.appendChild(specEl);
 
+      // Рейтинг
       if (master.reviews) {
         const ratingEl = document.createElement('div');
         ratingEl.className = 'master-rating';
@@ -150,6 +161,7 @@ document.addEventListener('DOMContentLoaded', function () {
         card.appendChild(ratingEl);
       }
 
+      // Описание
       if (master.description) {
         const descEl = document.createElement('div');
         descEl.className = 'master-card__desc';
@@ -170,6 +182,7 @@ document.addEventListener('DOMContentLoaded', function () {
         card.appendChild(descEl);
       }
 
+      // Кнопка "Показать примеры работ"
       if (master.work_folder) {
         const workBtn = document.createElement('button');
         workBtn.className = 'master-card__show-work';
