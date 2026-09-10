@@ -346,6 +346,73 @@ body {
   box-shadow: 0 4px 14px rgba(201, 184, 165, 0.2);
 }
 
+/* ===== АКЦИИ ===== */
+.promo {
+  padding: 80px 0;
+  background: #FAF5F0;
+}
+
+.promo__grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 28px;
+}
+
+.promo-card {
+  background: #F5EFEA;
+  border-radius: 20px;
+  overflow: hidden;
+  border: 1px solid #E8DDD4;
+  transition: all 0.3s;
+  display: flex;
+  flex-direction: column;
+}
+
+.promo-card:hover {
+  transform: translateY(-6px);
+  box-shadow: 0 16px 40px rgba(201, 184, 165, 0.25);
+  border-color: #C9B8A5;
+}
+
+.promo-card__image {
+  width: 100%;
+  height: 320px;
+  background: #E8DDD4;
+  overflow: hidden;
+  flex-shrink: 0;
+}
+
+.promo-card__image img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+  transition: transform 0.6s ease;
+}
+
+.promo-card:hover .promo-card__image img {
+  transform: scale(1.05);
+}
+
+.promo-card__body {
+  padding: 24px;
+  text-align: center;
+}
+
+.promo-card__body h3 {
+  font-family: 'Playfair Display', serif;
+  font-weight: 700;
+  font-size: 22px;
+  color: #4A4038;
+  margin-bottom: 8px;
+}
+
+.promo-card__body p {
+  font-size: 16px;
+  color: #8A7A6F;
+  line-height: 1.5;
+}
+
 /* ===== УСЛУГИ ===== */
 .services {
   padding: 80px 0;
@@ -964,6 +1031,21 @@ body {
   .advantages__grid {
     grid-template-columns: 1fr;
   }
+
+  .promo__grid {
+    grid-template-columns: 1fr;
+    gap: 20px;
+  }
+  .promo-card__image {
+    height: 240px;
+  }
+  .promo-card__body {
+    padding: 20px;
+  }
+  .promo-card__body h3 {
+    font-size: 20px;
+  }
+
   .services__list {
     grid-template-columns: 1fr;
   }
@@ -1036,5 +1118,17 @@ body {
   }
   .about__cta {
     font-size: 16px;
+  }
+  .promo {
+    padding: 60px 0;
+  }
+  .promo-card__image {
+    height: 200px;
+  }
+  .promo-card__body h3 {
+    font-size: 18px;
+  }
+  .promo-card__body p {
+    font-size: 15px;
   }
 }
