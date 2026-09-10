@@ -1,431 +1,181 @@
-document.addEventListener('DOMContentLoaded', function () {
-  console.log('✅ app.js загружен');
-  document.getElementById('year').textContent = new Date().getFullYear();
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Luxepil — сеть салонов красоты в Казани</title>
+  <meta name="description" content="Лазерная эпиляция, маникюр, педикюр, депиляция. Рейтинг 5.0 на Яндекс.Картах. Запись онлайн.">
+  <link rel="icon" type="image/svg+xml" href="/favicon.svg">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;0,700;1,400&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+  <header class="header">
+    <div class="container header__inner">
+      <nav class="header__nav">
+        <a href="#promo">Акции</a>
+        <a href="#services">Услуги и цены</a>
+        <a href="#masters">Наши специалисты</a>
+        <a href="#reviews">Что говорят клиенты</a>
+        <a href="#about">О компании</a>
+        <a href="#contacts">Как нас найти</a>
+        <a href="#booking" class="btn btn--primary btn--small">Записаться</a>
+      </nav>
+      <button class="header__burger" aria-label="Меню">
+        <span></span><span></span><span></span>
+      </button>
+    </div>
+  </header>
 
-  function transliterate(name) {
-    const map = {
-      'а': 'a', 'б': 'b', 'в': 'v', 'г': 'g', 'д': 'd', 'е': 'e', 'ё': 'e',
-      'ж': 'zh', 'з': 'z', 'и': 'i', 'й': 'y', 'к': 'k', 'л': 'l', 'м': 'm',
-      'н': 'n', 'о': 'o', 'п': 'p', 'р': 'r', 'с': 's', 'т': 't', 'у': 'u',
-      'ф': 'f', 'х': 'h', 'ц': 'ts', 'ч': 'ch', 'ш': 'sh', 'щ': 'sch', 'ъ': '',
-      'ы': 'y', 'ь': '', 'э': 'e', 'ю': 'yu', 'я': 'ya',
-      'А': 'A', 'Б': 'B', 'В': 'V', 'Г': 'G', 'Д': 'D', 'Е': 'E', 'Ё': 'E',
-      'Ж': 'Zh', 'З': 'Z', 'И': 'I', 'Й': 'Y', 'К': 'K', 'Л': 'L', 'М': 'M',
-      'Н': 'N', 'О': 'O', 'П': 'P', 'Р': 'R', 'С': 'S', 'Т': 'T', 'У': 'U',
-      'Ф': 'F', 'Х': 'H', 'Ц': 'Ts', 'Ч': 'Ch', 'Ш': 'Sh', 'Щ': 'Sch', 'Ъ': '',
-      'Ы': 'Y', 'Ь': '', 'Э': 'E', 'Ю': 'Yu', 'Я': 'Ya'
-    };
-    return name
-      .split('')
-      .map(ch => map[ch] || ch)
-      .join('')
-      .replace(/[^a-zA-Z0-9]/g, '_')
-      .replace(/_+/g, '_')
-      .replace(/^_|_$/g, '')
-      .toLowerCase();
-  }
+  <main>
+    <section class="hero">
+      <div class="container hero__inner">
+        <div class="hero__content">
+          <h1 class="hero-title">
+            Создаём красоту<br>
+            в ритме большого города
+          </h1>
+          <p class="hero-subtitle">
+            Безопасность процедур и ощущение заботы в мелочах —<br>
+            это поводы возвращаться к нам снова
+          </p>
 
-  const MAX_WORKS = 10;
-  let currentSalonId = 1;
-  let salonsData = [];
+          <img class="logo hero-logo" src="/images/logo.png" alt="Luxepil">
 
-  const salonsTabs = document.getElementById('salonsTabs');
-  const mastersGrid = document.getElementById('mastersGrid');
-  const reviewsGrid = document.getElementById('reviewsGrid');
-  const contactsContent = document.getElementById('contactsContent');
-  const mapLink = document.getElementById('mapLink');
-  const whatsappLink = document.getElementById('whatsappLink');
-  const telegramLink = document.getElementById('telegramLink');
-  const vkLink = document.getElementById('vkLink');
+          <div class="badge badge-dark">Сеть салонов красоты в Казани</div>
 
-  async function loadSalons() {
-    try {
-      const res = await fetch('/api/salons');
-      if (!res.ok) throw new Error('Ошибка загрузки салонов');
-      const data = await res.json();
-      if (!data || data.length === 0) {
-        salonsTabs.innerHTML = '<p style="text-align:center;color:#c0392b;padding:10px;">Нет данных о салонах</p>';
-        return;
-      }
-      salonsData = data;
-      renderTabs(salonsData);
-      currentSalonId = salonsData[0].id;
-      renderSalon(currentSalonId);
-    } catch (err) {
-      console.error('❌ Ошибка:', err);
-      salonsTabs.innerHTML = '<p style="text-align:center;color:#c0392b;padding:10px;">Ошибка загрузки салонов</p>';
-    }
-  }
+          <p class="hero-text">
+            Лазерная эпиляция, депиляция, маникюр и педикюр
+          </p>
+          <p class="hero-text hero-text-bold">
+            Рейтинг <strong>5.0</strong> на Яндекс.Картах<br>
+            Ежегодные победители премии <strong>2ГИС</strong>
+          </p>
 
-  function renderTabs(salons) {
-    salonsTabs.innerHTML = '';
-    salons.forEach(salon => {
-      const btn = document.createElement('button');
-      btn.className = 'salon-tab';
-      btn.textContent = salon.name.replace(/^Luxepil\s+на\s+/i, '');
-      btn.dataset.id = salon.id;
-      if (salon.id === currentSalonId) btn.classList.add('active');
-      btn.addEventListener('click', () => {
-        document.querySelectorAll('.salon-tab').forEach(b => b.classList.remove('active'));
-        btn.classList.add('active');
-        currentSalonId = salon.id;
-        renderSalon(salon.id);
-      });
-      salonsTabs.appendChild(btn);
-    });
-  }
-
-  function renderSalon(salonId) {
-    const salon = salonsData.find(s => s.id === salonId);
-    if (!salon) return;
-    renderMasters(salon.masters, salonId);
-    renderReviews(salon.reviews);
-
-    contactsContent.innerHTML = `
-      <p><strong>Адрес:</strong> ${salon.address}</p>
-      <p><strong>Телефон:</strong> <a href="tel:${salon.phone}">${salon.phone}</a></p>
-      <p><strong>Режим работы:</strong> ежедневно, 9:00 – 21:00</p>
-    `;
-    whatsappLink.href = salon.whatsapp;
-    telegramLink.href = salon.telegram;
-    vkLink.href = salon.vk;
-
-    const coords = salon.coordinates.split(',').map(s => s.trim());
-    mapLink.href = `https://yandex.ru/maps/?pt=${coords[1]},${coords[0]}&z=16`;
-  }
-
-  function renderMasters(masters, salonId) {
-    mastersGrid.innerHTML = '';
-    const folders = { 1: 'popova_7', 2: 'kaybitskaya_2', 3: 'otdradnaya_15' };
-    const folder = folders[salonId] || 'popova_7';
-
-    function getPriority(master) {
-      const hasWork = master.work_folder ? 1 : 0;
-      const hasDesc = master.description ? 1 : 0;
-      if (hasWork && hasDesc) return 1;
-      if (hasWork && !hasDesc) return 2;
-      if (!hasWork && hasDesc) return 3;
-      return 4;
-    }
-
-    const sortedMasters = [...masters].sort((a, b) => {
-      const pa = getPriority(a);
-      const pb = getPriority(b);
-      if (pa !== pb) return pa - pb;
-      return a.name.localeCompare(b.name);
-    });
-
-    sortedMasters.forEach(master => {
-      const card = document.createElement('div');
-      card.className = 'master-card';
-
-      const photoName = transliterate(master.name) + '.jpg';
-      const fullPath = `/images/masters/${folder}/${photoName}`;
-
-      const photoContainer = document.createElement('div');
-      photoContainer.className = 'master-card__photo';
-
-      const img = document.createElement('img');
-      img.src = fullPath;
-      img.alt = master.name;
-      img.onerror = function() {
-        this.style.display = 'none';
-        const fallback = document.createElement('span');
-        fallback.className = 'master-card__photo-fallback';
-        fallback.textContent = master.name.charAt(0);
-        this.parentElement.appendChild(fallback);
-      };
-      photoContainer.appendChild(img);
-      card.appendChild(photoContainer);
-
-      const nameEl = document.createElement('h3');
-      nameEl.textContent = master.name;
-      card.appendChild(nameEl);
-
-      const specEl = document.createElement('div');
-      specEl.className = 'master-spec';
-      specEl.textContent = master.specialization;
-      card.appendChild(specEl);
-
-      if (master.reviews) {
-        const ratingEl = document.createElement('div');
-        ratingEl.className = 'master-rating';
-        ratingEl.textContent = `★ 5.0 (${master.reviews} отзывов)`;
-        card.appendChild(ratingEl);
-      }
-
-      if (master.description) {
-        const descEl = document.createElement('div');
-        descEl.className = 'master-card__desc';
-        const textEl = document.createElement('div');
-        textEl.className = 'master-card__desc-text';
-        textEl.textContent = master.description;
-        descEl.appendChild(textEl);
-
-        const btn = document.createElement('button');
-        btn.className = 'master-card__read-more';
-        btn.textContent = 'Читать дальше';
-        btn.addEventListener('click', () => {
-          textEl.classList.toggle('expanded');
-          btn.textContent = textEl.classList.contains('expanded') ? 'Свернуть' : 'Читать дальше';
-        });
-        descEl.appendChild(btn);
-        card.appendChild(descEl);
-      }
-
-      if (master.work_folder) {
-        const workBtn = document.createElement('button');
-        workBtn.className = 'master-card__show-work';
-        workBtn.textContent = 'Показать примеры работ';
-        workBtn.addEventListener('click', () => {
-          openWorksLightbox(folder, master.work_folder, master.name);
-        });
-        card.appendChild(workBtn);
-      }
-
-      mastersGrid.appendChild(card);
-    });
-  }
-
-  function openWorksLightbox(folder, workFolder, masterName) {
-    initLightbox();
-    const lb = document.querySelector('.lightbox');
-    if (!lb) return;
-
-    const lbImg = lb.querySelector('.lightbox__img');
-    const prevBtn = lb.querySelector('.lightbox__prev');
-    const nextBtn = lb.querySelector('.lightbox__next');
-
-    const works = [];
-    let idx = 1;
-
-    function loadWorks() {
-      return new Promise((resolve) => {
-        function tryNext() {
-          if (idx > MAX_WORKS) { resolve(); return; }
-          const testSrc = `/images/works/${folder}/${workFolder}/work-${idx}.jpg`;
-          const testImg = new Image();
-          testImg.onload = () => { works.push(testSrc); idx++; tryNext(); };
-          testImg.onerror = () => resolve();
-          testImg.src = testSrc;
-        }
-        tryNext();
-      });
-    }
-
-    let currentIdx = 0;
-    function showWork(i) {
-      if (works.length === 0) return;
-      currentIdx = (i + works.length) % works.length;
-      lbImg.src = works[currentIdx];
-      lbImg.alt = `Работа мастера ${masterName} (${currentIdx + 1}/${works.length})`;
-    }
-
-    if (prevBtn) prevBtn.style.display = 'none';
-    if (nextBtn) nextBtn.style.display = 'none';
-    if (prevBtn) prevBtn.onclick = (e) => { e.stopPropagation(); showWork(currentIdx - 1); };
-    if (nextBtn) nextBtn.onclick = (e) => { e.stopPropagation(); showWork(currentIdx + 1); };
-
-    loadWorks().then(() => {
-      if (works.length === 0) {
-        lbImg.src = '';
-        lbImg.alt = 'Работы не найдены';
-        lb.classList.add('open');
-        return;
-      }
-      showWork(0);
-      lb.classList.add('open');
-      if (works.length > 1) {
-        if (prevBtn) prevBtn.style.display = 'flex';
-        if (nextBtn) nextBtn.style.display = 'flex';
-      }
-    });
-  }
-
-  function renderReviews(reviews) {
-    reviewsGrid.innerHTML = '';
-    reviews.forEach(review => {
-      const card = document.createElement('div');
-      card.className = 'review-card';
-      card.innerHTML = `<p>“${review.text}”</p><span>— ${review.author}</span>`;
-      reviewsGrid.appendChild(card);
-    });
-  }
-
-  const serviceTabs = document.getElementById('serviceTabs');
-  const serviceList = document.getElementById('serviceList');
-
-  async function loadServices() {
-    try {
-      const res = await fetch('/api/services');
-      if (!res.ok) throw new Error('Ошибка загрузки услуг');
-      const data = await res.json();
-      if (!data.categories || data.categories.length === 0) {
-        serviceTabs.innerHTML = '<p style="text-align:center;color:#c0392b;padding:10px;">Нет категорий услуг</p>';
-        return;
-      }
-      renderTabsServices(data.categories);
-      renderServices(data.categories[0]);
-    } catch (err) {
-      console.error('❌ Ошибка:', err);
-      serviceTabs.innerHTML = '<p style="text-align:center;color:#c0392b;padding:10px;">Ошибка загрузки услуг</p>';
-    }
-  }
-
-  function renderTabsServices(categories) {
-    serviceTabs.innerHTML = '';
-    categories.forEach((cat, index) => {
-      const btn = document.createElement('button');
-      btn.textContent = cat.name;
-      btn.dataset.index = index;
-      if (index === 0) btn.classList.add('active');
-      btn.addEventListener('click', () => {
-        document.querySelectorAll('.services__tabs button').forEach(b => b.classList.remove('active'));
-        btn.classList.add('active');
-        renderServices(categories[index]);
-      });
-      serviceTabs.appendChild(btn);
-    });
-  }
-
-  function renderServices(category) {
-    serviceList.innerHTML = '';
-    const services = category.services;
-    const initialShow = 3;
-
-    services.forEach((item, index) => {
-      const card = document.createElement('div');
-      card.className = 'service-card';
-      if (index >= initialShow) card.classList.add('service-card--hidden');
-      let imageHtml = item.image ? `<div class="service-card__image"><img src="${item.image}" alt="${item.name}" loading="lazy"></div>` : '';
-      card.innerHTML = `
-        ${imageHtml}
-        <h3>${item.name}</h3>
-        <div class="price">${item.price} ₽</div>
-        ${item.description ? `<div class="desc">${item.description}</div>` : ''}
-      `;
-      serviceList.appendChild(card);
-    });
-
-    const oldBtn = serviceList.querySelector('.services__show-all-btn');
-    if (oldBtn) oldBtn.remove();
-
-    if (services.length > initialShow) {
-      const btn = document.createElement('button');
-      btn.className = 'services__show-all-btn';
-      btn.textContent = `Показать все (${services.length - initialShow})`;
-      btn.addEventListener('click', function() {
-        document.querySelectorAll('.service-card--hidden').forEach(c => c.classList.remove('service-card--hidden'));
-        this.style.display = 'none';
-      });
-      serviceList.appendChild(btn);
-    }
-  }
-
-  function loadPromo() {
-    const grid = document.getElementById('promoGrid');
-    if (!grid) return;
-
-    const promos = [
-      { image: '/images/promo/promo-1.jpg', title: 'Знакомство с лазерной эпиляцией', text: 'Дарим -1000 ₽ на первое посещение любого комплекса лазерной эпиляции. Попробуйте премиальный уход с максимальной выгодой!', button: 'Записаться со скидкой', link: 'https://clck.ru/3B4viL' },
-      { image: '/images/promo/promo-2.jpg', title: 'Разделите бьюти-день с подругой', text: 'Поделитесь заботой! Подарите подруге сертификат на -500 ₽ на её первый визит в наш салон, а мы начислим вам бонусы на следующий сеанс.', button: 'Получить сертификат', link: 'https://clck.ru/3B4viL' },
-      { image: '/images/promo/promo-3.jpg', title: 'День рождения в Luxepil', text: 'Сияйте в свой особенный день! Дарим скидку 15% на любые услуги эпиляции и ногтевого сервиса (действует в день рождения, а также 3 дня до и после него).', button: 'Забронировать дату', link: 'https://clck.ru/3B4viL' },
-      { image: '/images/promo/promo-4.jpg', title: 'Умный кешбэк', text: 'Оплачивайте услуги наличными и получайте повышенный кешбэк 5% на ваш бонусный счет.', button: 'Записаться онлайн', link: 'https://clck.ru/3B4viL' }
-    ];
-
-    grid.innerHTML = '';
-    promos.forEach(promo => {
-      const card = document.createElement('div');
-      card.className = 'promo-card';
-      card.innerHTML = `
-        <div class="promo-card__image">
-          <img src="${promo.image}" alt="${promo.title}" loading="lazy" onerror="this.style.display='none'; this.parentElement.style.background='linear-gradient(135deg,#E8DDD4,#D4C5B2)';">
+          <a href="#booking" class="btn btn--large btn--primary">Записаться онлайн</a>
         </div>
-        <div class="promo-card__body">
-          <h3>${promo.title}</h3>
-          <p>${promo.text}</p>
-          <a href="${promo.link}" target="_blank" class="promo-card__btn">${promo.button}</a>
+      </div>
+    </section>
+
+    <section class="salons-switcher">
+      <div class="container"><div class="salons-tabs" id="salonsTabs"></div></div>
+    </section>
+
+    <section class="advantages">
+      <div class="container advantages__grid">
+        <div class="advantage">
+          <span class="advantage__icon">✦</span>
+          <h3>Команда экспертов</h3>
+          <p>Дипломированные бьюти-мастера с опытом от 3 лет и регулярным обучением</p>
         </div>
-      `;
-      grid.appendChild(card);
-    });
-  }
+        <div class="advantage">
+          <span class="advantage__icon">♡</span>
+          <h3>Высокий стандарт качества</h3>
+          <p>Работаем только на оригинальной продукции для вашей безопасности</p>
+        </div>
+        <div class="advantage">
+          <span class="advantage__icon">◈</span>
+          <h3>Комфорт и уют</h3>
+          <p>Индивидуальный подход к каждому гостю</p>
+        </div>
+      </div>
+    </section>
 
-  function loadAboutGallery() {
-    const gallery = document.getElementById('aboutGallery');
-    if (!gallery) return;
+    <section id="about" class="about">
+      <div class="container">
+        <h2 class="section-title">О компании Luxepil</h2>
+        <div class="about__text">
+          <p>Добро пожаловать в сеть студий красоты <strong>Luxepil</strong>! Более 10 лет мы создаем пространство, где эстетика встречается с безупречным сервисом, а забота о вашей красоте становится нашей главной миссией.</p>
+          <p>За годы работы мы завоевали доверие тысяч клиенток и точно знаем, как подчеркнуть вашу естественную привлекательность. Команда Luxepil с радостью поможет вам:</p>
+          <ul class="about__list">
+            <li>Обрести безупречный маникюр и педикюр — стильный, аккуратный и долговечный.</li>
+            <li>Забыть о лишних волосах — с помощью деликатного шугаринга или эффективной лазерной эпиляции.</li>
+            <li>Подобрать индивидуальный уход, который бережно сохранит здоровье вашей кожи.</li>
+          </ul>
+          <p><strong>Почему выбирают нас:</strong> нам доверяют самое ценное, потому что в нашей сети работают только дипломированные мастера с опытом от 3 лет. Мы используем проверенные премиальные материалы, строго следим за безопасностью и окружаем заботой каждого гостя.</p>
+          <p class="about__cta">Подарите себе время для отдыха и преображения — ведь вы этого достойны!</p>
+        </div>
 
-    const photos = [
-      '/images/salons/salon-1.jpg', '/images/salons/salon-2.jpg', '/images/salons/salon-3.jpg',
-      '/images/salons/salon-4.jpg', '/images/salons/salon-5.jpg', '/images/salons/salon-6.jpg',
-      '/images/salons/salon-7.jpg', '/images/salons/salon-8.jpg', '/images/salons/salon-9.jpg'
-    ];
+        <div class="about__gallery" id="aboutGallery"></div>
+      </div>
+    </section>
 
-    gallery.innerHTML = '';
-    photos.forEach((src, index) => {
-      const item = document.createElement('div');
-      item.className = 'about__gallery-item';
-      const img = document.createElement('img');
-      img.src = src;
-      img.alt = `Салон Luxepil ${index + 1}`;
-      img.loading = 'lazy';
-      img.onerror = function() {
-        this.style.display = 'none';
-        this.parentElement.style.background = 'linear-gradient(135deg, #E8DDD4, #D4C5B2)';
-      };
-      item.appendChild(img);
-      item.addEventListener('click', () => openLightbox(src, img.alt));
-      gallery.appendChild(item);
-    });
-  }
+    <section id="promo" class="promo">
+      <div class="container">
+        <h2 class="section-title">Акции</h2>
+        <div class="promo__grid" id="promoGrid"></div>
+      </div>
+    </section>
 
-  function initLightbox() {
-    if (document.querySelector('.lightbox')) return;
-    const lb = document.createElement('div');
-    lb.className = 'lightbox';
-    lb.innerHTML = `
-      <button class="lightbox__close" aria-label="Закрыть">&times;</button>
-      <button class="lightbox__prev" aria-label="Предыдущее">‹</button>
-      <img class="lightbox__img" src="" alt="">
-      <button class="lightbox__next" aria-label="Следующее">›</button>
-    `;
-    document.body.appendChild(lb);
+    <section id="services" class="services">
+      <div class="container">
+        <h2 class="section-title">Услуги и цены</h2>
+        <div class="services__tabs" id="serviceTabs"></div>
+        <div class="services__list" id="serviceList"></div>
+      </div>
+    </section>
 
-    const lbClose = lb.querySelector('.lightbox__close');
-    lb.addEventListener('click', (e) => {
-      if (e.target === lb || e.target === lbClose) lb.classList.remove('open');
-    });
-    document.addEventListener('keydown', (e) => {
-      if (e.key === 'Escape') lb.classList.remove('open');
-    });
-  }
+    <section id="masters" class="masters">
+      <div class="container">
+        <h2 class="section-title">Наши специалисты</h2>
+        <div class="masters__grid" id="mastersGrid"></div>
+      </div>
+    </section>
 
-  function openLightbox(src, alt) {
-    initLightbox();
-    const lb = document.querySelector('.lightbox');
-    if (!lb) return;
-    const lbImg = lb.querySelector('.lightbox__img');
-    const prevBtn = lb.querySelector('.lightbox__prev');
-    const nextBtn = lb.querySelector('.lightbox__next');
-    if (prevBtn) prevBtn.style.display = 'none';
-    if (nextBtn) nextBtn.style.display = 'none';
-    lbImg.src = src;
-    lbImg.alt = alt;
-    lb.classList.add('open');
-  }
+    <section id="reviews" class="reviews">
+      <div class="container">
+        <h2 class="section-title">Что говорят клиенты</h2>
+        <div class="reviews__grid" id="reviewsGrid"></div>
+      </div>
+    </section>
 
-  loadPromo();
-  loadAboutGallery();
+    <section id="contacts" class="contacts">
+      <div class="container contacts__inner">
+        <div class="contacts__info">
+          <h2 class="section-title contacts__title">Как нас найти</h2>
+          <div id="contactsContent"></div>
+          <div class="contacts__socials">
+            <a href="#" id="whatsappLink" target="_blank">WhatsApp</a>
+            <a href="#" id="telegramLink" target="_blank">Telegram</a>
+            <a href="#" id="vkLink" target="_blank">VK</a>
+          </div>
+        </div>
+        <div class="contacts__map">
+          <a href="#" id="mapLink" target="_blank" class="map-link">
+            <div class="map-placeholder">
+              <svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="#C9B8A5" stroke-width="1.5">
+                <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/>
+                <circle cx="12" cy="10" r="3"/>
+              </svg>
+              <span>Построить маршрут</span>
+              <small>Откроется в Яндекс.Картах</small>
+            </div>
+          </a>
+        </div>
+      </div>
+    </section>
 
-  const burger = document.querySelector('.header__burger');
-  const nav = document.querySelector('.header__nav');
-  if (burger) {
-    burger.addEventListener('click', () => nav.classList.toggle('open'));
-    document.querySelectorAll('.header__nav a').forEach(link => {
-      link.addEventListener('click', () => nav.classList.remove('open'));
-    });
-  }
+    <section id="booking" class="booking">
+      <div class="container">
+        <div class="booking__card" style="text-align:center;padding:60px 40px;">
+          <h2 class="section-title booking__title">Готовы записаться?</h2>
+          <p style="font-size:18px;color:#8A7A6F;margin-bottom:32px;">Нажмите на кнопку ниже, чтобы перейти к форме записи</p>
+          <a href="https://clck.ru/3B4viL" target="_blank" class="btn btn--large btn--primary" style="padding:20px 60px;font-size:22px;">📅 Записаться онлайн</a>
+          <p style="margin-top:20px;font-size:14px;color:#B8ADA7;">Вы будете перенаправлены на форму записи</p>
+        </div>
+      </div>
+    </section>
+  </main>
 
-  loadSalons();
-  loadServices();
-});
+  <footer class="footer">
+    <div class="container footer__inner">
+      <p>© <span id="year"></span> Luxepil. Все права защищены.</p>
+      <p>Сайт создан с ❤️ для вашего комфорта.</p>
+    </div>
+  </footer>
+
+  <script src="js/app.js"></script>
+</body>
+</html>
