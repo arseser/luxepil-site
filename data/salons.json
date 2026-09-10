@@ -10,6 +10,23 @@
     "coordinates": "55.795000,49.110000",
     "masters": [
       {
+        "name": "Топ мастер Алина",
+        "specialization": "Топ мастер ногтевого сервиса",
+        "work_folder": "alina_top"
+      },
+      {
+        "name": "Мария",
+        "specialization": "Мастер ногтевого сервиса",
+        "reviews": 59,
+        "work_folder": "mariya"
+      },
+      {
+        "name": "Лиана",
+        "specialization": "Мастер ногтевого сервиса",
+        "reviews": 34,
+        "work_folder": "liana"
+      },
+      {
         "name": "Розалия",
         "specialization": "Мастер эпиляции",
         "description": "Я мастер с легкой рукой, а это значит: никаких «потерпите, сейчас будет больно». Работаю быстро, точно, подбираю материал под вашу кожу и волосы. Вы приходите поговорить и расслабиться — а не сжать кулаки и задержать дыхание. Приходите за гладкостью и хорошим настроением!"
@@ -19,11 +36,6 @@
         "specialization": "Мастер эпиляции",
         "reviews": 131,
         "description": "Меня зовут Екатерина. Шестой год на страже гладкого тела. Я профессионально и качественно удаляю каждый нежелательный волосок. Комфорт, качество и безопасность — главное в моем деле. Вы получаете не только гладкость, которая будет Вас радовать и делать чуточку увереннее и счастливее, но и необходимые ценные рекомендации по уходу за кожей. Индивидуальный подход, техника и СКОРОСТЬ позволяют максимально комфортно и безболезненно выполнить работу. С заботой к вам и любовью к своей работе — мастер Екатерина."
-      },
-      {
-        "name": "Дарина",
-        "specialization": "Мастер ногтевого сервиса",
-        "reviews": 44
       },
       {
         "name": "Алина И.",
@@ -38,10 +50,9 @@
         "description": "Меня зовут Алина, я мастер ногтевого сервиса. В сфере ногтевого сервиса 6 лет. С радостью сделаю Ваши ноготочки ещё красивее!"
       },
       {
-        "name": "Мария",
+        "name": "Дарина",
         "specialization": "Мастер ногтевого сервиса",
-        "reviews": 59,
-        "work_folder": "mariya"
+        "reviews": 44
       },
       {
         "name": "Сурай",
@@ -52,12 +63,6 @@
         "name": "Диляра",
         "specialization": "Мастер ногтевого сервиса",
         "reviews": 33
-      },
-      {
-        "name": "Лиана",
-        "specialization": "Мастер ногтевого сервиса",
-        "reviews": 34,
-        "work_folder": "liana"
       },
       {
         "name": "Ирина",
@@ -86,6 +91,23 @@
     "vk": "https://vk.ru/luxepil",
     "coordinates": "55.789000,49.120000",
     "masters": [
+      {
+        "name": "Гуля",
+        "specialization": "Мастер ногтевого сервиса",
+        "reviews": 131,
+        "work_folder": "gulya"
+      },
+      {
+        "name": "Азалия",
+        "specialization": "Мастер ногтевого сервиса",
+        "reviews": 205,
+        "work_folder": "azaliya"
+      },
+      {
+        "name": "Дина",
+        "specialization": "Мастер ногтевого сервиса",
+        "work_folder": "dina"
+      },
       {
         "name": "Оксана",
         "specialization": "Мастер эпиляции",
@@ -117,12 +139,6 @@
         "reviews": 218
       },
       {
-        "name": "Азалия",
-        "specialization": "Мастер ногтевого сервиса",
-        "reviews": 205,
-        "work_folder": "azaliya"
-      },
-      {
         "name": "Альбина Фирдависовна",
         "specialization": "Мастер ногтевого сервиса",
         "reviews": 85
@@ -136,17 +152,6 @@
         "name": "Радмила",
         "specialization": "Мастер ногтевого сервиса",
         "reviews": 99
-      },
-      {
-        "name": "Гуля",
-        "specialization": "Мастер ногтевого сервиса",
-        "reviews": 131,
-        "work_folder": "gulya"
-      },
-      {
-        "name": "Дина",
-        "specialization": "Мастер ногтевого сервиса",
-        "work_folder": "dina"
       }
     ],
     "reviews": [
@@ -166,32 +171,10 @@
     "coordinates": "55.765919,49.174030",
     "masters": [
       {
-        "name": "Рушана",
+        "name": "Ульяна Б",
         "specialization": "Мастер ногтевого сервиса",
-        "reviews": 140
-      },
-      {
-        "name": "Альфия",
-        "specialization": "Мастер ногтевого сервиса",
-        "reviews": 61
-      },
-      {
-        "name": "Даша",
-        "specialization": "Топ мастер ногтевого сервиса",
-        "reviews": 190,
-        "work_folder": "darya_top"
-      },
-      {
-        "name": "Надира",
-        "specialization": "Мастер ногтевого сервиса",
-        "reviews": 96,
-        "work_folder": "nadira"
-      },
-      {
-        "name": "Ульяна",
-        "specialization": "Мастер ногтевого сервиса",
-        "reviews": 158,
-        "work_folder": "ulyana"
+        "reviews": 74,
+        "work_folder": "ulyana_b"
       },
       {
         "name": "Алена",
@@ -200,16 +183,38 @@
         "work_folder": "alena"
       },
       {
-        "name": "Ульяна Б",
+        "name": "Ульяна",
         "specialization": "Мастер ногтевого сервиса",
-        "reviews": 74,
-        "work_folder": "ulyana_b"
+        "reviews": 158,
+        "work_folder": "ulyana"
+      },
+      {
+        "name": "Надира",
+        "specialization": "Мастер ногтевого сервиса",
+        "reviews": 96,
+        "work_folder": "nadira"
       },
       {
         "name": "Анастасия",
         "specialization": "Мастер ногтевого сервиса",
         "reviews": 58,
         "work_folder": "anastasiya"
+      },
+      {
+        "name": "Даша",
+        "specialization": "Топ мастер ногтевого сервиса",
+        "reviews": 190,
+        "work_folder": "darya_top"
+      },
+      {
+        "name": "Рушана",
+        "specialization": "Мастер ногтевого сервиса",
+        "reviews": 140
+      },
+      {
+        "name": "Альфия",
+        "specialization": "Мастер ногтевого сервиса",
+        "reviews": 61
       }
     ],
     "reviews": [
