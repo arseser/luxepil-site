@@ -119,7 +119,8 @@ document.addEventListener('DOMContentLoaded', function () {
       const card = document.createElement('div');
       card.className = 'master-card';
 
-      const photoName = transliterate(master.name) + '.jpg';
+      // Фото: если есть поле "photo" — берём из него, иначе транслитерация имени
+      const photoName = (master.photo ? master.photo : transliterate(master.name)) + '.jpg';
       const fullPath = `/images/masters/${folder}/${photoName}`;
 
       const photoContainer = document.createElement('div');
