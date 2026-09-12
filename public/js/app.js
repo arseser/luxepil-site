@@ -351,31 +351,20 @@ document.addEventListener('DOMContentLoaded', function () {
     });
   }
 
-  // ===== ГАЛЕРЕЯ САЛОНОВ — ЧЕРЕДОВАНИЕ ЛЮДИ-ДЕТАЛИ =====
-  // Порядок: 1) первая остаётся; 2) чередование людей и деталей.
-  // Меняем только ПОРЯДОК загрузки файлов, не переименовываем.
+  // ===== ГАЛЕРЕЯ САЛОНОВ — ПОРЯДОК 1, 2, 6, 3, 7, 4, 5, 8 =====
   function loadAboutGallery() {
     const gallery = document.getElementById('aboutGallery');
     if (!gallery) return;
 
-    // Порядок:
-    // salon-1 — первая (остаётся)
-    // salon-2 — человек (люди)
-    // salon-5 — деталь
-    // salon-3 — человек
-    // salon-7 — деталь
-    // salon-4 — человек
-    // salon-9 — деталь
-    // salon-6 — человек
     const photos = [
-      '/images/salons/salon-1.jpg',  // 1. Первая (как была)
-      '/images/salons/salon-2.jpg',  // 2. Люди
-      '/images/salons/salon-5.jpg',  // 3. Детали
-      '/images/salons/salon-3.jpg',  // 4. Люди
-      '/images/salons/salon-7.jpg',  // 5. Детали
-      '/images/salons/salon-4.jpg',  // 6. Люди
-      '/images/salons/salon-9.jpg',  // 7. Детали
-      '/images/salons/salon-6.jpg'   // 8. Люди
+      '/images/salons/salon-1.jpg',  // 1 (группа)
+      '/images/salons/salon-2.jpg',  // 2 (люди)
+      '/images/salons/salon-6.jpg',  // 6 (деталь)
+      '/images/salons/salon-3.jpg',  // 3 (люди)
+      '/images/salons/salon-7.jpg',  // 7 (деталь)
+      '/images/salons/salon-4.jpg',  // 4 (люди)
+      '/images/salons/salon-5.jpg',  // 5 (люди)
+      '/images/salons/salon-8.jpg'   // 8 (люди)
     ];
 
     gallery.innerHTML = '';
