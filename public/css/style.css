@@ -147,7 +147,7 @@ body {
 }
 
 .hero__content {
-  max-width: 640px;
+  max-width: 720px;
   width: 100%;
   text-align: center;
   display: flex;
@@ -174,13 +174,14 @@ body {
   color: #6B5F55;
   margin: 0 0 24px 0;
   text-align: center;
-  max-width: 480px;
+  max-width: 520px;
 }
 
+/* Увеличенный логотип в 2 раза */
 .hero-logo {
-  height: 160px;
+  height: 320px;
   width: auto;
-  max-width: 400px;
+  max-width: 800px;
   margin: 0 auto;
   filter: brightness(0) saturate(100%) invert(70%) sepia(30%) saturate(500%) hue-rotate(5deg);
 }
@@ -1129,6 +1130,10 @@ body {
   .contacts__map .map-link {
     height: 220px;
   }
+  .hero-logo {
+    height: 260px;
+    max-width: 640px;
+  }
 }
 
 @media (max-width: 768px) {
@@ -1162,8 +1167,8 @@ body {
     font-size: 14px;
   }
   .hero-logo {
-    height: 120px;
-    max-width: 300px;
+    height: 200px;
+    max-width: 480px;
   }
   .hero-brand-sub {
     font-size: 16px;
@@ -1278,8 +1283,8 @@ body {
     font-size: 16px;
   }
   .hero-logo {
-    height: 100px;
-    max-width: 240px;
+    height: 160px;
+    max-width: 380px;
   }
   .hero-brand-sub {
     font-size: 14px;
