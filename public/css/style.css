@@ -764,19 +764,6 @@ body {
   background: #F0EAE4;
 }
 
-/* Золотистый логотип перед заголовком */
-.about__logo-wrap {
-  text-align: center;
-  margin-bottom: 16px;
-}
-
-.about__logo {
-  height: 120px;
-  width: auto;
-  max-width: 320px;
-  filter: brightness(0) saturate(100%) invert(70%) sepia(30%) saturate(500%) hue-rotate(5deg);
-}
-
 .about__text {
   max-width: 100%;
   width: 100%;
@@ -796,7 +783,6 @@ body {
   font-weight: 700;
 }
 
-/* Список со значками ✦ (как в преимуществах) */
 .about__list {
   list-style: none;
   padding: 0;
@@ -820,7 +806,6 @@ body {
   line-height: 1.6;
 }
 
-/* Финальный блок «Подарите себе момент радости...» */
 .about__cta {
   text-align: center;
   font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
@@ -829,16 +814,6 @@ body {
   line-height: 1.8;
   color: #3E332B;
   margin-top: 24px;
-}
-
-/* Золотистый логотип прямо в тексте CTA */
-.about__cta-logo {
-  height: 28px;
-  width: auto;
-  max-width: 120px;
-  vertical-align: middle;
-  margin-left: 6px;
-  filter: brightness(0) saturate(100%) invert(70%) sepia(30%) saturate(500%) hue-rotate(5deg);
 }
 
 .about__gallery {
@@ -873,6 +848,14 @@ body {
 
 .about__gallery-item:hover img {
   transform: scale(1.06);
+}
+
+/* ===== ЗОЛОТОЙ ТЕКСТ «Luxepil» ===== */
+.gold-text {
+  color: #C9A87C;
+  font-family: 'Playfair Display', serif;
+  font-weight: 700;
+  letter-spacing: 1px;
 }
 
 /* ===== ЛАЙТБОКС ===== */
@@ -1130,10 +1113,6 @@ body {
   .about__text {
     font-size: 16px;
   }
-  .about__logo {
-    height: 100px;
-    max-width: 260px;
-  }
   .contacts__inner {
     flex-direction: column;
   }
@@ -1193,18 +1172,6 @@ body {
 
   .advantages__grid {
     grid-template-columns: 1fr;
-  }
-
-  .about__logo {
-    height: 80px;
-    max-width: 200px;
-  }
-  .about__cta {
-    font-size: 16px;
-  }
-  .about__cta-logo {
-    height: 22px;
-    max-width: 90px;
   }
 
   .promo__grid {
@@ -1330,10 +1297,6 @@ body {
   .about {
     padding: 60px 0;
   }
-  .about__logo {
-    height: 70px;
-    max-width: 180px;
-  }
   .about__gallery {
     grid-template-columns: repeat(2, 1fr);
     gap: 12px;
@@ -1348,10 +1311,6 @@ body {
   .about__cta {
     font-size: 15px;
   }
-  .about__cta-logo {
-    height: 20px;
-    max-width: 80px;
-  }
   .promo {
     padding: 60px 0;
   }
@@ -1363,56 +1322,5 @@ body {
   }
   .promo-card__body p {
     font-size: 14px;
-  }
-}
-/* ===== ЛОГО В ЗАГОЛОВКЕ «О компании» ===== */
-.about-title {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  flex-wrap: wrap;
-  gap: 12px;
-}
-
-.about-title__logo {
-  display: inline-block;
-  height: 48px;
-  width: auto;
-  max-width: 200px;
-  vertical-align: middle;
-  filter: brightness(0) saturate(100%) invert(70%) sepia(30%) saturate(500%) hue-rotate(5deg);
-}
-
-/* ===== ЛОГО В ТЕКСТЕ «О компании» ===== */
-.about-inline-logo {
-  display: inline-block;
-  height: 24px;
-  width: auto;
-  max-width: 120px;
-  vertical-align: middle;
-  margin: 0 4px;
-  filter: brightness(0) saturate(100%) invert(70%) sepia(30%) saturate(500%) hue-rotate(5deg);
-}
-
-/* Адаптив */
-@media (max-width: 768px) {
-  .about-title__logo {
-    height: 36px;
-    max-width: 150px;
-  }
-  .about-inline-logo {
-    height: 18px;
-    max-width: 90px;
-  }
-}
-
-@media (max-width: 480px) {
-  .about-title__logo {
-    height: 30px;
-    max-width: 120px;
-  }
-  .about-inline-logo {
-    height: 16px;
-    max-width: 70px;
   }
 }
