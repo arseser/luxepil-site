@@ -119,7 +119,6 @@ document.addEventListener('DOMContentLoaded', function () {
       const card = document.createElement('div');
       card.className = 'master-card';
 
-      // Фото: если есть поле "photo" — берём из него, иначе транслитерация имени
       const photoName = (master.photo ? master.photo : transliterate(master.name)) + '.jpg';
       const fullPath = `/images/masters/${folder}/${photoName}`;
 
@@ -352,14 +351,20 @@ document.addEventListener('DOMContentLoaded', function () {
     });
   }
 
+  // ===== ГАЛЕРЕЯ САЛОНОВ (8 ФОТО) =====
   function loadAboutGallery() {
     const gallery = document.getElementById('aboutGallery');
     if (!gallery) return;
 
     const photos = [
-      '/images/salons/salon-1.jpg', '/images/salons/salon-2.jpg', '/images/salons/salon-3.jpg',
-      '/images/salons/salon-4.jpg', '/images/salons/salon-5.jpg', '/images/salons/salon-6.jpg',
-      '/images/salons/salon-7.jpg', '/images/salons/salon-8.jpg', '/images/salons/salon-9.jpg'
+      '/images/salons/salon-1.jpg',
+      '/images/salons/salon-2.jpg',
+      '/images/salons/salon-3.jpg',
+      '/images/salons/salon-4.jpg',
+      '/images/salons/salon-5.jpg',
+      '/images/salons/salon-6.jpg',
+      '/images/salons/salon-7.jpg',
+      '/images/salons/salon-8.jpg'
     ];
 
     gallery.innerHTML = '';
