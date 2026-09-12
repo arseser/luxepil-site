@@ -351,7 +351,7 @@ document.addEventListener('DOMContentLoaded', function () {
     });
   }
 
-  // ===== ГАЛЕРЕЯ САЛОНОВ (8 ФОТО) =====
+  // ===== ГАЛЕРЕЯ САЛОНОВ (8 ФОТО, БЕЗ salon-8) =====
   function loadAboutGallery() {
     const gallery = document.getElementById('aboutGallery');
     if (!gallery) return;
@@ -364,7 +364,7 @@ document.addEventListener('DOMContentLoaded', function () {
       '/images/salons/salon-5.jpg',
       '/images/salons/salon-6.jpg',
       '/images/salons/salon-7.jpg',
-      '/images/salons/salon-8.jpg'
+      '/images/salons/salon-9.jpg'
     ];
 
     gallery.innerHTML = '';
