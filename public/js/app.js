@@ -326,6 +326,7 @@ document.addEventListener('DOMContentLoaded', function () {
     }
   }
 
+  // ===== АКЦИИ — 5 штук (новая «Клиентский день» добавлена 5-й) =====
   function loadPromo() {
     const grid = document.getElementById('promoGrid');
     if (!grid) return;
@@ -334,7 +335,8 @@ document.addEventListener('DOMContentLoaded', function () {
       { image: '/images/promo/promo-1.jpg', title: 'Знакомство с лазерной эпиляцией', text: 'Дарим -1000 ₽ на первое посещение любого комплекса лазерной эпиляции. Попробуйте премиальный уход с максимальной выгодой!', button: 'Записаться со скидкой', link: 'https://clck.ru/3B4viL' },
       { image: '/images/promo/promo-2.jpg', title: 'Разделите бьюти-день с подругой', text: 'Поделитесь заботой! Подарите подруге сертификат на -500 ₽ на её первый визит в наш салон, а мы начислим вам бонусы на следующий сеанс.', button: 'Получить сертификат', link: 'https://clck.ru/3B4viL' },
       { image: '/images/promo/promo-3.jpg', title: 'День рождения в Luxepil', text: 'Сияйте в свой особенный день! Дарим скидку 15% на любые услуги эпиляции и ногтевого сервиса (действует в день рождения, а также 3 дня до и после него).', button: 'Забронировать дату', link: 'https://clck.ru/3B4viL' },
-      { image: '/images/promo/promo-4.jpg', title: 'Умный кешбэк', text: 'Оплачивайте услуги наличными и получайте повышенный кешбэк 5% на ваш бонусный счет.', button: 'Записаться онлайн', link: 'https://clck.ru/3B4viL' }
+      { image: '/images/promo/promo-4.jpg', title: 'Умный кешбэк', text: 'Оплачивайте услуги наличными и получайте повышенный кешбэк 5% на ваш бонусный счет.', button: 'Записаться онлайн', link: 'https://clck.ru/3B4viL' },
+      { image: '/images/promo/promo-5.jpg', title: 'Клиентский день', text: 'Ваш законный повод побаловать себя! Раз в месяц мы превращаем обычный день в праздник. Вас ждут: -20% на услуги и абонементы лазерной эпиляции, -10% на подарочные сертификаты, приятная атмосфера, угощения и отличное настроение.', button: 'Записаться', link: 'https://clck.ru/3B4viL' }
     ];
 
     grid.innerHTML = '';
@@ -355,7 +357,7 @@ document.addEventListener('DOMContentLoaded', function () {
     });
   }
 
-  // ===== ГАЛЕРЕЯ САЛОНОВ — 8 ФОТО (новая salon-10 в конце) =====
+  // ===== ГАЛЕРЕЯ САЛОНОВ — 8 ФОТО =====
   function loadAboutGallery() {
     const gallery = document.getElementById('aboutGallery');
     if (!gallery) return;
@@ -368,7 +370,7 @@ document.addEventListener('DOMContentLoaded', function () {
       '/images/salons/salon-4.jpg',
       '/images/salons/salon-7.jpg',
       '/images/salons/salon-5.jpg',
-      '/images/salons/salon-10.jpg'   // ← НОВАЯ, добавлена в конец
+      '/images/salons/salon-10.jpg'
     ];
 
     gallery.innerHTML = '';
