@@ -288,6 +288,7 @@ document.addEventListener('DOMContentLoaded', function () {
     });
   }
 
+  // Фото показываем только если есть поле image
   function renderServices(category) {
     serviceList.innerHTML = '';
     const services = category.services;
@@ -297,7 +298,11 @@ document.addEventListener('DOMContentLoaded', function () {
       const card = document.createElement('div');
       card.className = 'service-card';
       if (index >= initialShow) card.classList.add('service-card--hidden');
-      let imageHtml = item.image ? `<div class="service-card__image"><img src="${item.image}" alt="${item.name}" loading="lazy"></div>` : '';
+
+      let imageHtml = item.image
+        ? `<div class="service-card__image"><img src="${item.image}" alt="${item.name}" loading="lazy"></div>`
+        : '';
+
       card.innerHTML = `
         ${imageHtml}
         <h3>${item.name}</h3>
