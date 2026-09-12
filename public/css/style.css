@@ -1,3 +1,12 @@
+/* ===== ПОДКЛЮЧЕНИЕ ШРИФТА NICKAINLEY ===== */
+@font-face {
+  font-family: 'Nickainley';
+  src: url('/fonts/Nickainley.ttf') format('truetype');
+  font-weight: normal;
+  font-style: normal;
+  font-display: swap;
+}
+
 /* ===== БАЗА ===== */
 * {
   margin: 0;
@@ -362,7 +371,7 @@ body {
 /* Вертикальное фото акции: верх виден, низ чуть обрезается */
 .promo-card__image {
   width: 100%;
-  aspect-ratio: 680 / 850;    /* чуть ниже 1000, обрежется низ */
+  aspect-ratio: 680 / 850;
   background: #E8DDD4;
   overflow: hidden;
   flex-shrink: 0;
@@ -372,7 +381,7 @@ body {
   width: 100%;
   height: 100%;
   object-fit: cover;
-  object-position: center top;   /* верх всегда виден */
+  object-position: center top;
   display: block;
   transition: transform 0.6s ease;
 }
@@ -852,12 +861,15 @@ body {
   transform: scale(1.06);
 }
 
-/* ===== ЗОЛОТОЙ ТЕКСТ «Luxepil» ===== */
+/* ===== ЗОЛОТОЙ ТЕКСТ «Luxepil» (шрифт Nickainley, светло-золотистый) ===== */
 .gold-text {
-  color: #C9A87C;
-  font-family: 'Playfair Display', serif;
-  font-weight: 700;
+  color: #FFD98A;
+  font-family: 'Nickainley', 'Playfair Display', serif;
+  font-weight: normal;
+  font-style: normal;
   letter-spacing: 1px;
+  font-size: 1.3em;
+  line-height: 1;
 }
 
 /* ===== ЛАЙТБОКС ===== */
@@ -1266,6 +1278,10 @@ body {
   }
   .lightbox__prev { left: 12px; }
   .lightbox__next { right: 12px; }
+
+  .gold-text {
+    font-size: 1.15em;
+  }
 }
 
 @media (max-width: 480px) {
@@ -1321,5 +1337,9 @@ body {
   }
   .promo-card__body p {
     font-size: 14px;
+  }
+
+  .gold-text {
+    font-size: 1.1em;
   }
 }
