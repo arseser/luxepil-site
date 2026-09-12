@@ -1365,3 +1365,54 @@ body {
     font-size: 14px;
   }
 }
+/* ===== ЛОГО В ЗАГОЛОВКЕ «О компании» ===== */
+.about-title {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-wrap: wrap;
+  gap: 12px;
+}
+
+.about-title__logo {
+  display: inline-block;
+  height: 48px;
+  width: auto;
+  max-width: 200px;
+  vertical-align: middle;
+  filter: brightness(0) saturate(100%) invert(70%) sepia(30%) saturate(500%) hue-rotate(5deg);
+}
+
+/* ===== ЛОГО В ТЕКСТЕ «О компании» ===== */
+.about-inline-logo {
+  display: inline-block;
+  height: 24px;
+  width: auto;
+  max-width: 120px;
+  vertical-align: middle;
+  margin: 0 4px;
+  filter: brightness(0) saturate(100%) invert(70%) sepia(30%) saturate(500%) hue-rotate(5deg);
+}
+
+/* Адаптив */
+@media (max-width: 768px) {
+  .about-title__logo {
+    height: 36px;
+    max-width: 150px;
+  }
+  .about-inline-logo {
+    height: 18px;
+    max-width: 90px;
+  }
+}
+
+@media (max-width: 480px) {
+  .about-title__logo {
+    height: 30px;
+    max-width: 120px;
+  }
+  .about-inline-logo {
+    height: 16px;
+    max-width: 70px;
+  }
+}
