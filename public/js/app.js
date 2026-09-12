@@ -288,7 +288,6 @@ document.addEventListener('DOMContentLoaded', function () {
     });
   }
 
-  // Фото показываем только если есть поле image
   function renderServices(category) {
     serviceList.innerHTML = '';
     const services = category.services;
@@ -356,7 +355,7 @@ document.addEventListener('DOMContentLoaded', function () {
     });
   }
 
-  // ===== ГАЛЕРЕЯ САЛОНОВ — ПОРЯДОК 1, 2, 6, 3, 4, 7, 5 =====
+  // ===== ГАЛЕРЕЯ САЛОНОВ — 8 ФОТО (новая salon-10 в конце) =====
   function loadAboutGallery() {
     const gallery = document.getElementById('aboutGallery');
     if (!gallery) return;
@@ -368,7 +367,8 @@ document.addEventListener('DOMContentLoaded', function () {
       '/images/salons/salon-3.jpg',
       '/images/salons/salon-4.jpg',
       '/images/salons/salon-7.jpg',
-      '/images/salons/salon-5.jpg'
+      '/images/salons/salon-5.jpg',
+      '/images/salons/salon-10.jpg'   // ← НОВАЯ, добавлена в конец
     ];
 
     gallery.innerHTML = '';
