@@ -156,7 +156,6 @@ body {
   gap: 16px;
 }
 
-/* Время для себя — жирным */
 .hero-cta-text {
   font-family: 'Inter', sans-serif;
   font-weight: 700;
@@ -186,7 +185,6 @@ body {
   filter: brightness(0) saturate(100%) invert(70%) sepia(30%) saturate(500%) hue-rotate(5deg);
 }
 
-/* Сеть студий красоты — как в первом варианте */
 .hero-brand-sub {
   font-family: 'Playfair Display', serif;
   font-weight: 600;
@@ -766,6 +764,19 @@ body {
   background: #F0EAE4;
 }
 
+/* Золотистый логотип перед заголовком */
+.about__logo-wrap {
+  text-align: center;
+  margin-bottom: 16px;
+}
+
+.about__logo {
+  height: 120px;
+  width: auto;
+  max-width: 320px;
+  filter: brightness(0) saturate(100%) invert(70%) sepia(30%) saturate(500%) hue-rotate(5deg);
+}
+
 .about__text {
   max-width: 100%;
   width: 100%;
@@ -785,6 +796,7 @@ body {
   font-weight: 700;
 }
 
+/* Список со значками ✦ (как в преимуществах) */
 .about__list {
   list-style: none;
   padding: 0;
@@ -799,19 +811,34 @@ body {
 }
 
 .about__list li::before {
-  content: '🪄';
+  content: '✦';
   position: absolute;
   left: 0;
-  font-size: 16px;
+  top: 0;
+  color: #C9B8A5;
+  font-size: 18px;
+  line-height: 1.6;
 }
 
+/* Финальный блок «Подарите себе момент радости...» */
 .about__cta {
   text-align: center;
-  font-family: 'Inter', sans-serif;
+  font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
   font-weight: 700;
   font-size: 18px;
+  line-height: 1.8;
   color: #3E332B;
   margin-top: 24px;
+}
+
+/* Золотистый логотип прямо в тексте CTA */
+.about__cta-logo {
+  height: 28px;
+  width: auto;
+  max-width: 120px;
+  vertical-align: middle;
+  margin-left: 6px;
+  filter: brightness(0) saturate(100%) invert(70%) sepia(30%) saturate(500%) hue-rotate(5deg);
 }
 
 .about__gallery {
@@ -1093,9 +1120,6 @@ body {
 
 /* ===== АДАПТИВ ===== */
 @media (max-width: 992px) {
-  .hero-title {
-    font-size: 32px;
-  }
   .advantages__grid {
     grid-template-columns: 1fr 1fr;
   }
@@ -1105,6 +1129,10 @@ body {
   }
   .about__text {
     font-size: 16px;
+  }
+  .about__logo {
+    height: 100px;
+    max-width: 260px;
   }
   .contacts__inner {
     flex-direction: column;
@@ -1165,6 +1193,18 @@ body {
 
   .advantages__grid {
     grid-template-columns: 1fr;
+  }
+
+  .about__logo {
+    height: 80px;
+    max-width: 200px;
+  }
+  .about__cta {
+    font-size: 16px;
+  }
+  .about__cta-logo {
+    height: 22px;
+    max-width: 90px;
   }
 
   .promo__grid {
@@ -1290,6 +1330,10 @@ body {
   .about {
     padding: 60px 0;
   }
+  .about__logo {
+    height: 70px;
+    max-width: 180px;
+  }
   .about__gallery {
     grid-template-columns: repeat(2, 1fr);
     gap: 12px;
@@ -1302,7 +1346,11 @@ body {
     margin-bottom: 32px;
   }
   .about__cta {
-    font-size: 16px;
+    font-size: 15px;
+  }
+  .about__cta-logo {
+    height: 20px;
+    max-width: 80px;
   }
   .promo {
     padding: 60px 0;
