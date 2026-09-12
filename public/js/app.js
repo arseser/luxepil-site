@@ -351,19 +351,19 @@ document.addEventListener('DOMContentLoaded', function () {
     });
   }
 
-  // ===== ГАЛЕРЕЯ САЛОНОВ — ПОРЯДОК 1, 2, 5, 3, 7, 4, 6 =====
+  // ===== ГАЛЕРЕЯ САЛОНОВ — ПОРЯДОК 1, 2, 6, 3, 4, 7, 5 =====
   function loadAboutGallery() {
     const gallery = document.getElementById('aboutGallery');
     if (!gallery) return;
 
     const photos = [
-      '/images/salons/salon-1.jpg',  // 1
-      '/images/salons/salon-2.jpg',  // 2
-      '/images/salons/salon-5.jpg',  // 5
-      '/images/salons/salon-3.jpg',  // 3
-      '/images/salons/salon-7.jpg',  // 7
-      '/images/salons/salon-4.jpg',  // 4
-      '/images/salons/salon-6.jpg'   // 6
+      '/images/salons/salon-1.jpg',
+      '/images/salons/salon-2.jpg',
+      '/images/salons/salon-6.jpg',
+      '/images/salons/salon-3.jpg',
+      '/images/salons/salon-4.jpg',  // ← поменяли местами с salon-7
+      '/images/salons/salon-7.jpg',  // ← поменяли местами с salon-4
+      '/images/salons/salon-5.jpg'
     ];
 
     gallery.innerHTML = '';
