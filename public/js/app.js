@@ -361,8 +361,8 @@ document.addEventListener('DOMContentLoaded', function () {
       '/images/salons/salon-2.jpg',
       '/images/salons/salon-6.jpg',
       '/images/salons/salon-3.jpg',
-      '/images/salons/salon-4.jpg',  // ← поменяли местами с salon-7
-      '/images/salons/salon-7.jpg',  // ← поменяли местами с salon-4
+      '/images/salons/salon-4.jpg',
+      '/images/salons/salon-7.jpg',
       '/images/salons/salon-5.jpg'
     ];
 
