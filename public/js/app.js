@@ -128,13 +128,13 @@ document.addEventListener('DOMContentLoaded', function () {
       const img = document.createElement('img');
       img.src = fullPath;
       img.alt = master.name;
-      img.onerror = function() {
+      img.addEventListener('error', function() {
         this.style.display = 'none';
         const fallback = document.createElement('span');
         fallback.className = 'master-card__photo-fallback';
         fallback.textContent = master.name.charAt(0);
         this.parentElement.appendChild(fallback);
-      };
+      });
       photoContainer.appendChild(img);
       card.appendChild(photoContainer);
 
@@ -326,38 +326,52 @@ document.addEventListener('DOMContentLoaded', function () {
     }
   }
 
-  // ===== АКЦИИ — 5 штук (новая «Клиентский день» добавлена 5-й) =====
+  // ===== АКЦИИ — «Клиентский день» первым =====
   function loadPromo() {
     const grid = document.getElementById('promoGrid');
     if (!grid) return;
 
     const promos = [
+      { image: '/images/promo/promo-5.jpg', title: 'Клиентский день', text: 'Ваш законный повод побаловать себя! Раз в месяц мы превращаем обычный день в праздник. Вас ждут: -20% на услуги и абонементы лазерной эпиляции, -10% на подарочные сертификаты, приятная атмосфера, угощения и отличное настроение.', button: 'Записаться', link: 'https://clck.ru/3B4viL' },
       { image: '/images/promo/promo-1.jpg', title: 'Знакомство с лазерной эпиляцией', text: 'Дарим -1000 ₽ на первое посещение любого комплекса лазерной эпиляции. Попробуйте премиальный уход с максимальной выгодой!', button: 'Записаться со скидкой', link: 'https://clck.ru/3B4viL' },
       { image: '/images/promo/promo-2.jpg', title: 'Разделите бьюти-день с подругой', text: 'Поделитесь заботой! Подарите подруге сертификат на -500 ₽ на её первый визит в наш салон, а мы начислим вам бонусы на следующий сеанс.', button: 'Получить сертификат', link: 'https://clck.ru/3B4viL' },
       { image: '/images/promo/promo-3.jpg', title: 'День рождения в Luxepil', text: 'Сияйте в свой особенный день! Дарим скидку 15% на любые услуги эпиляции и ногтевого сервиса (действует в день рождения, а также 3 дня до и после него).', button: 'Забронировать дату', link: 'https://clck.ru/3B4viL' },
-      { image: '/images/promo/promo-4.jpg', title: 'Умный кешбэк', text: 'Оплачивайте услуги наличными и получайте повышенный кешбэк 5% на ваш бонусный счет.', button: 'Записаться онлайн', link: 'https://clck.ru/3B4viL' },
-      { image: '/images/promo/promo-5.jpg', title: 'Клиентский день', text: 'Ваш законный повод побаловать себя! Раз в месяц мы превращаем обычный день в праздник. Вас ждут: -20% на услуги и абонементы лазерной эпиляции, -10% на подарочные сертификаты, приятная атмосфера, угощения и отличное настроение.', button: 'Записаться', link: 'https://clck.ru/3B4viL' }
+      { image: '/images/promo/promo-4.jpg', title: 'Умный кешбэк', text: 'Оплачивайте услуги наличными и получайте повышенный кешбэк 5% на ваш бонусный счет.', button: 'Записаться онлайн', link: 'https://clck.ru/3B4viL' }
     ];
 
     grid.innerHTML = '';
     promos.forEach(promo => {
       const card = document.createElement('div');
       card.className = 'promo-card';
-      card.innerHTML = `
-        <div class="promo-card__image">
-          <img src="${promo.image}" alt="${promo.title}" loading="lazy" onerror="this.style.display='none'; this.parentElement.style.background='linear-gradient(135deg,#E8DDD4,#D4C5B2)';">
-        </div>
-        <div class="promo-card__body">
-          <h3>${promo.title}</h3>
-          <p>${promo.text}</p>
-          <a href="${promo.link}" target="_blank" class="promo-card__btn">${promo.button}</a>
-        </div>
+
+      const imgWrap = document.createElement('div');
+      imgWrap.className = 'promo-card__image';
+
+      const img = document.createElement('img');
+      img.src = promo.image;
+      img.alt = promo.title;
+      img.loading = 'lazy';
+      img.addEventListener('error', function() {
+        this.style.display = 'none';
+        this.parentElement.style.background = 'linear-gradient(135deg,#E8DDD4,#D4C5B2)';
+      });
+      imgWrap.appendChild(img);
+
+      const body = document.createElement('div');
+      body.className = 'promo-card__body';
+      body.innerHTML = `
+        <h3>${promo.title}</h3>
+        <p>${promo.text}</p>
+        <a href="${promo.link}" target="_blank" class="promo-card__btn">${promo.button}</a>
       `;
+
+      card.appendChild(imgWrap);
+      card.appendChild(body);
       grid.appendChild(card);
     });
   }
 
-  // ===== ГАЛЕРЕЯ САЛОНОВ — 8 ФОТО =====
+  // ===== ГАЛЕРЕЯ САЛОНОВ =====
   function loadAboutGallery() {
     const gallery = document.getElementById('aboutGallery');
     if (!gallery) return;
@@ -381,10 +395,10 @@ document.addEventListener('DOMContentLoaded', function () {
       img.src = src;
       img.alt = `Салон Luxepil ${index + 1}`;
       img.loading = 'lazy';
-      img.onerror = function() {
+      img.addEventListener('error', function() {
         this.style.display = 'none';
         this.parentElement.style.background = 'linear-gradient(135deg, #E8DDD4, #D4C5B2)';
-      };
+      });
       item.appendChild(img);
       item.addEventListener('click', () => openLightbox(src, img.alt));
       gallery.appendChild(item);
