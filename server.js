@@ -9,26 +9,24 @@ const path = require('path');
 const app = express();
 const PORT = process.env.PORT || 3000;
 
-// ----- Безопасность (CSP с поддержкой Метрики) -----
+// ----- Безопасность (CSP с поддержкой Метрики и Вебвизора) -----
 app.use(helmet({
   contentSecurityPolicy: {
     directives: {
       ...helmet.contentSecurityPolicy.getDefaultDirectives(),
       "img-src": ["'self'", "data:", "https://placehold.co", "https://api-maps.yandex.ru", "https://mc.yandex.ru"],
-      "frame-src": ["'self'", "https://yandex.ru"],
+      "frame-src": ["'self'", "https://yandex.ru", "https://mc.yandex.ru"],
       "font-src": ["'self'", "https://fonts.gstatic.com"],
       "style-src": ["'self'", "https://fonts.googleapis.com", "'unsafe-inline'"],
       "script-src": ["'self'", "'unsafe-inline'", "https://mc.yandex.ru"],
       "script-src-attr": ["'unsafe-inline'"],
-      "connect-src": ["'self'", "https://mc.yandex.ru"],
+      "connect-src": ["'self'", "https://mc.yandex.ru", "wss://mc.yandex.ru"],
     },
   },
 }));
 
-// ----- Доверять прокси (для Render / Nginx) -----
 app.set('trust proxy', 1);
 
-// ----- Настройка CORS -----
 const allowedOrigin = process.env.ALLOWED_ORIGIN || 'http://localhost:3000';
 app.use(cors({
   origin: allowedOrigin,
@@ -36,7 +34,6 @@ app.use(cors({
   credentials: true
 }));
 
-// ----- Rate Limiter (защита от спама) -----
 const limiter = rateLimit({
   windowMs: 15 * 60 * 1000,
   max: 10,
@@ -46,11 +43,9 @@ const limiter = rateLimit({
 });
 app.use('/api/booking', limiter);
 
-// ----- Middleware -----
 app.use(express.json({ limit: '1mb' }));
 app.use(express.static('public'));
 
-// ----- Загрузка данных -----
 const pricesData = JSON.parse(
   fs.readFileSync(path.join(__dirname, 'data', 'prices.json'), 'utf8')
 );
@@ -63,7 +58,6 @@ try {
   reviewsData = [];
 }
 
-// ----- API -----
 app.get('/api/services', (req, res) => {
   res.json(pricesData);
 });
@@ -94,7 +88,6 @@ app.get('/api/reviews', (req, res) => {
   res.json(reviewsData);
 });
 
-// ----- API: запись -----
 app.post('/api/booking', async (req, res) => {
   const { name, phone, service, master, date, time, comment } = req.body;
 
@@ -164,7 +157,6 @@ app.post('/api/booking', async (req, res) => {
   }
 });
 
-// ----- Запуск -----
 app.listen(PORT, () => {
   console.log(`🚀 Сервер Luxepil запущен на порту ${PORT}`);
   console.log(`🔒 CORS разрешён только для: ${allowedOrigin}`);
